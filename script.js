@@ -592,7 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
 
           <div style="margin-top:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-            <a href="https://japan-travel.donki.com/coupon/" target="_blank" class="btn btn-primary" style="font-size:0.88rem;">
+            <a href="https://japanportal.donki-global.com/coupon/?ptcd=0041000104" target="_blank" class="btn btn-primary" style="font-size:0.88rem;">
               <i class="fa-solid fa-ticket"></i> 돈키호테 모바일 5% 추가 할인 쿠폰 열기
             </a>
             <span style="font-size:0.85rem;color:#6c757d;">(여권 지참 시 세전 5,000엔 이상 10% 면세)</span>

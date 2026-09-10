@@ -917,7 +917,7 @@ const TRAVEL_DETAILS = {
       badge: "돈키호테 뷰티 1위",
       price: "약 880 ~ 1,100엔 (한화 약 8,000~10,000원)",
       popular: "한국 올리브영 반값 수준",
-      image: "images/donki_skincare.jpg",
+      image: "images/donki_night_d.jpg",
       summary: "수면 중 눈가와 팔자주름에 탄력을 집중 공급하는 레티놀 배합 밤 타입 아이크림. 끈적임 없이 촉촉하게 흡수되어 선물용으로 장바구니 필수템입니다.",
       tips: [
         "돈키호테 화장품 코너 '눈가 케어' 섹션에 위치",
@@ -932,7 +932,7 @@ const TRAVEL_DETAILS = {
       badge: "일본 뷰티 어워드 수상",
       price: "약 1,320엔 (한화 약 12,000원)",
       popular: "지속력 & 수분감 깡패",
-      image: "images/donki_skincare.jpg",
+      image: "images/donki_fujiko.jpg",
       summary: "물 빠짐 없이 오랫동안 촉촉한 윤기와 자연스러운 수채화 혈색을 유지해 주는 립 틴트로, 발색과 지속력이 매우 뛰어납니다.",
       tips: [
         "01번 체리레드, 02번 피치코랄 색상이 한국인 피부톤에 가장 인기"
@@ -946,7 +946,7 @@ const TRAVEL_DETAILS = {
       badge: "가성비 음영 팔레트",
       price: "약 858엔 (한화 약 8,000원)",
       popular: "데일리 음영 메이크업 종결자",
-      image: "images/donki_skincare.jpg",
+      image: "images/donki_canmake.jpg",
       summary: "가루 날림 없이 밀착되는 부드러운 5색 음영 아이섀도우 팔레트. 중앙의 펄 토핑 섀도우가 은은한 애교살 포인트로 최고입니다.",
       tips: [
         "한국 드럭스토어 판매가 대비 약 40% 저렴"
@@ -960,7 +960,7 @@ const TRAVEL_DETAILS = {
       badge: "공항 면세점 부동의 1위",
       price: "약 800 ~ 900엔 (한화 약 7,500~8,500원)",
       popular: "입안에서 사르르 녹아내림",
-      image: "images/donki_snacks.jpg",
+      image: "images/donki_royce.jpg",
       summary: "홋카이도산 생크림이 듬뿍 들어가 쫀득하고 부드러운 생초콜릿. 귀국 당일(5일차) 간사이공항 출국장 면세점에서 보냉백(100엔)과 함께 구매하세요.",
       tips: [
         "보냉백 포장 시 한국 귀국 후에도 8~10시간 안전 유지"
@@ -974,7 +974,7 @@ const TRAVEL_DETAILS = {
       badge: "일본 국민 쿠키 선물",
       price: "약 1,080엔 ~ (한화 약 10,000원~)",
       popular: "남녀노소 호불호 없는 명과",
-      image: "images/donki_snacks.jpg",
+      image: "images/donki_shiroi_koibito.jpg",
       summary: "바삭하고 얇은 랑그드샤 버터 쿠키 사이에 부드러운 화이트 초콜릿을 샌드한 홋카이도 명과. 포장이 고급스러워 어르신 선물로 제격.",
       tips: [
         "간사이공항 면세점 및 돈키호테 과자 코너에서 판매"
@@ -1002,7 +1002,7 @@ const TRAVEL_DETAILS = {
       badge: "부드러운 커스터드",
       price: "약 1,080엔 (한화 약 10,000원)",
       popular: "선물 실패 없는 정석",
-      image: "images/donki_snacks.jpg",
+      image: "images/donki_tokyo_banana.jpg",
       summary: "폭신폭신한 바나나 모양 카스텔라 빵 안에 리얼 바나나 퓌레 커스터드 크림이 듬뿍 채워진 클래식 디저트.",
       tips: [
         "간사이공항 면세점에서 탑승 직전 면세가로 구매 추천"
@@ -1016,7 +1016,7 @@ const TRAVEL_DETAILS = {
       badge: "부모님 효도 선물 1위",
       price: "약 680 ~ 800엔 (한화 약 6,500원)",
       popular: "물 없이 녹여 먹는 가루 스틱",
-      image: "images/donki_medicine.jpg",
+      image: "images/donki_ryukakusan.jpg",
       summary: "물 없이 입안에 털어 넣으면 사르르 녹아 목의 칼칼함, 통증, 기침을 즉각 진정시켜 주는 생약 과립 상비약입니다.",
       tips: [
         "핑크색 복숭아향이 가장 맛있고 부담 없음"
@@ -1030,7 +1030,7 @@ const TRAVEL_DETAILS = {
       badge: "파스 부문 1위",
       price: "약 1,180 ~ 1,400엔 (한화 약 11,000원)",
       popular: "국내 약국 대비 50% 저렴",
-      image: "images/donki_medicine.jpg",
+      image: "images/donki_salonpas.jpg",
       summary: "명함 크기의 컴팩트한 파스로 어깨, 손목, 발바닥에 밀착력이 우수하며 피부 발진이 적은 일본 국민 파스입니다.",
       tips: [
         "140매 대용량 박스가 가성비 가장 우수"
@@ -1044,7 +1044,7 @@ const TRAVEL_DETAILS = {
       badge: "빠른 흡수 국민 진통제",
       price: "약 880 ~ 1,300엔 (한화 약 8,000~12,000원)",
       popular: "두통, 생리통 필수 쟁임템",
-      image: "images/donki_medicine.jpg",
+      image: "images/donki_eve_quick.jpg",
       summary: "이부프로펜 성분에 산화마그네슘을 배합하여 위를 보호하면서 두통과 근육통을 매우 빠르게 완화시켜 줍니다.",
       tips: [
         "골드 박스(EVE 퀵 DX)가 가장 빠른 효과"
@@ -1058,7 +1058,7 @@ const TRAVEL_DETAILS = {
       badge: "3천원대 갓성비 선물",
       price: "약 350 ~ 450엔 (한화 약 3,500원)",
       popular: "스마트폰 눈 피로 즉각 해소",
-      image: "images/donki_medicine.jpg",
+      image: "images/donki_rohto_vita.jpg",
       summary: "비타민 E, B6가 함유되어 피로하고 뻑뻑한 눈에 상쾌한 청량감을 불어넣어 주는 초인기 드롭스입니다.",
       tips: [
         "노란색(비타민 보통)과 파란색(강한 시원함) 중 선택"
@@ -1072,7 +1072,7 @@ const TRAVEL_DETAILS = {
       badge: "여행 필수품",
       price: "약 598 ~ 700엔 (한화 약 5,500원)",
       popular: "도보 2만보 걷고 붙이면 천국",
-      image: "images/donki_medicine.jpg",
+      image: "images/donki_kyusoku.jpg",
       summary: "라벤더, 로즈마리 허브 오일 젤 시트로 잠들기 전 종아리나 발바닥에 붙이면 밤새 부종과 붓기를 싹 빼줍니다.",
       tips: [
         "여행 1~2일차 밤 호텔 온천 후 바로 붙이고 취침 추천"
@@ -1086,7 +1086,7 @@ const TRAVEL_DETAILS = {
       badge: "국민 위장약",
       price: "약 1,280 ~ 1,450엔 (한화 약 12,000원)",
       popular: "과식, 더부룩함, 숙취 해소",
-      image: "images/donki_medicine.jpg",
+      image: "images/donki_ohta_isan.jpg",
       summary: "순수 생약 한방 성분으로 속 쓰림, 과식 후 더부룩함, 체기를 빠르고 편안하게 다스려 주는 일본 전통의 약품입니다.",
       tips: [
         "휴대용 분말 스틱 48포입 박스를 추천"
@@ -1100,7 +1100,7 @@ const TRAVEL_DETAILS = {
       badge: "코스메틱 어워드 1위",
       price: "약 1,800엔 (한화 약 16,000원 / 32개입)",
       popular: "1회용 캡슐 모공 각질 청소",
-      image: "images/donki_skincare.jpg",
+      image: "images/donki_suisai.jpg",
       summary: "효소 파우더가 물과 만나 조밀한 거품을 형성하여 블랙헤드와 묵은 각질을 자극 없이 녹여내는 프리미엄 클렌저.",
       tips: [
         "개별 캡슐 포장으로 여행용 세안제로도 완벽"
@@ -1142,8 +1142,8 @@ const TRAVEL_DETAILS = {
     {
       title: "돈키호테 모바일 5% 추가 할인 쿠폰",
       desc: "10,000엔 이상 구매 시 10% 면세에 5% 추가 할인 적용되는 바코드 쿠폰 (화면 제시용)",
-      couponUrl: "https://japan-travel.donki.com/coupon/",
-      timing: "출국 전 링크 북마크 및 캡처"
+      couponUrl: "https://japanportal.donki-global.com/coupon/?ptcd=0041000104",
+      timing: "계산대에서 모바일 화면 제시"
     },
     {
       title: "비짓 재팬 웹 (Visit Japan Web) 사전 등록",
