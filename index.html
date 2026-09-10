@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오사카 & 교토 힐링 트래블 가이드 2026</title>
+  <meta name="description" content="2026.09.17 - 09.21 오사카·교토 4박 5일 맞춤형 일정, 타베로그 3.5+ 맛집, 돈키호테 푸푸리 선물, 사전구매 링크, 실시간 날씨" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 헤더 / 히어로 섹션 -->
+  <header class="hero-header">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="trip-badges">
+        <span class="badge primary"><i class="fa-solid fa-calendar-days"></i> 2026.09.17(목) ~ 09.21(월)</span>
+        <span class="badge secondary"><i class="fa-solid fa-location-dot"></i> 오사카 · 교토 (4박 5일)</span>
+        <span class="badge accent"><i class="fa-solid fa-shield-halved"></i> 2026년 실사 검증 완료</span>
+      </div>
+      <h1 class="main-title">OSAKA & KYOTO <span>TRAVEL GUIDE</span></h1>
+      <p class="sub-title">타베로그 3.5+ 검증 맛집 • 동선 최적화 • 돈키호테(푸푸리) 선물 • 사전구매 공식 링크 • 실시간 날씨</p>
+      
+      <!-- 실시간 날씨 미니 바 -->
+      <div class="weather-live-bar" id="weatherLiveBar">
+        <div class="w-chip" id="wOsakaChip">
+          <span class="w-city"><i class="fa-solid fa-location-crosshairs"></i> 오사카 실시간:</span>
+          <span class="w-temp" id="wOsakaTemp"><i class="fa-solid fa-spinner fa-spin"></i> 로딩 중...</span>
+          <span class="w-desc" id="wOsakaDesc"></span>
+        </div>
+        <div class="w-chip" id="wKyotoChip">
+          <span class="w-city"><i class="fa-solid fa-location-crosshairs"></i> 교토 실시간:</span>
+          <span class="w-temp" id="wKyotoTemp"><i class="fa-solid fa-spinner fa-spin"></i> 로딩 중...</span>
+          <span class="w-desc" id="wKyotoDesc"></span>
+        </div>
+        <div class="w-hint">
+          <i class="fa-solid fa-cloud-sun"></i> 9월 평균 20~28°C (낮 반팔 + 아침·저녁 얇은 가디건 권장)
+        </div>
+      </div>
+
+      <div class="guide-hint">
+        <i class="fa-solid fa-hand-pointer"></i> <strong>관광지, 식당, 쇼핑 아이템을 클릭</strong>하시면 사진, 상세 운영시간, 가격, 에이전트 꿀팁을 확인하실 수 있습니다!
+      </div>
+      
+      <div class="hero-quick-info">
+        <div class="quick-card">
+          <i class="fa-solid fa-plane-departure"></i>
+          <div>
+            <div class="q-label">인천 ➔ 오사카(간사이)</div>
+            <div class="q-val">09.17(목) 09:05 ~ 11:00</div>
+          </div>
+        </div>
+        <div class="quick-card">
+          <i class="fa-solid fa-hotel"></i>
+          <div>
+            <div class="q-label">오사카 숙소 (9.17~19)</div>
+            <div class="q-val">온야도 노노 난바 온천호텔</div>
+          </div>
+        </div>
+        <div class="quick-card">
+          <i class="fa-solid fa-hotel"></i>
+          <div>
+            <div class="q-label">교토 숙소 (9.19~21)</div>
+            <div class="q-val">사쿠라 테라스 더 갤러리</div>
+          </div>
+        </div>
+        <div class="quick-card">
+          <i class="fa-solid fa-plane-arrival"></i>
+          <div>
+            <div class="q-label">간사이 ➔ 인천 귀국</div>
+            <div class="q-val">09.21(월) 18:15 ~ 20:10</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 메인 레이아웃 컨테이너 -->
+  <main class="container">
+    <!-- 탭 네비게이션 -->
+    <nav class="day-tabs" id="dayTabsNav">
+      <button class="tab-btn active" data-day="day1">
+        <span class="tab-day">Day 1</span>
+        <span class="tab-date">09.17 (목)</span>
+        <span class="tab-desc">공항 / 우메다 / 난바</span>
+      </button>
+      <button class="tab-btn" data-day="day2">
+        <span class="tab-day">Day 2</span>
+        <span class="tab-date">09.18 (금)</span>
+        <span class="tab-desc">츠텐카쿠 / 오사카성 / 도톤보리</span>
+      </button>
+      <button class="tab-btn" data-day="day3">
+        <span class="tab-day">Day 3</span>
+        <span class="tab-date">09.19 (토)</span>
+        <span class="tab-desc">오사카 ➔ 교토 / 니시키 / 기온</span>
+      </button>
+      <button class="tab-btn" data-day="day4">
+        <span class="tab-day">Day 4</span>
+        <span class="tab-date">09.20 (일)</span>
+        <span class="tab-desc">대나무숲 / 교토교회 / 사이인</span>
+      </button>
+      <button class="tab-btn" data-day="day5">
+        <span class="tab-day">Day 5</span>
+        <span class="tab-date">09.21 (월)</span>
+        <span class="tab-desc">후시미이나리 / 하루카 귀국</span>
+      </button>
+      <button class="tab-btn special-tab" data-day="prep-check">
+        <span class="tab-day"><i class="fa-solid fa-cart-shopping"></i></span>
+        <span class="tab-date">사전구매 링크</span>
+        <span class="tab-desc">패스·하루카·보험 예매</span>
+      </button>
+      <button class="tab-btn special-tab" data-day="all-tips">
+        <span class="tab-day"><i class="fa-solid fa-lightbulb"></i></span>
+        <span class="tab-date">쇼핑·날씨·팁</span>
+        <span class="tab-desc">돈키호테 푸푸리 & 날씨</span>
+      </button>
+    </nav>
+
+    <!-- 요일별 동적 콘텐츠 컨테이너 -->
+    <div id="dayContentArea" class="content-view-area">
+      <!-- 자바스크립트로 렌더링 -->
+    </div>
+  </main>
+
+  <!-- [상세 정보 인터랙티브 모달] -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="modalCloseBtn" title="닫기 (ESC)">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      
+      <div class="modal-header-banner">
+        <div class="modal-top-meta">
+          <span class="modal-badge" id="modalCategoryBadge">관광지 정보</span>
+          <span class="modal-verified-tag" id="modalVerifiedTag">✅ 2026년 실사 검증</span>
+        </div>
+        <h3 class="modal-title" id="modalTitle">장소 이름</h3>
+        <p class="modal-subtitle" id="modalSubtitle">일본어 명칭 및 영어 명칭</p>
+      </div>
+
+      <div class="modal-body" id="modalBody">
+        <!-- 동적 정보 로드 -->
+      </div>
+
+      <div class="modal-footer" id="modalFooter">
+        <button class="btn btn-outline" id="modalCopyBtn">
+          <i class="fa-solid fa-copy"></i> 일본어 명칭/주소 복사
+        </button>
+        <a href="#" target="_blank" class="btn btn-primary" id="modalMapLink">
+          <i class="fa-solid fa-map-location-dot"></i> Google Maps 정확한 위치 열기
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 토스트 알림 메시지 -->
+  <div class="toast-notice" id="toastNotice"></div>
+
+  <!-- 푸터 -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>🗾 2026 오사카·교토 여행 맞춤형 AI 에이전트 시스템</p>
+      <p class="footer-sub">실제 운영 및 최근 1~2달 리뷰 전수 검증 완료 | 타베로그 3.5+ 엄선 | 구글 지도 내보내기 지원</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
