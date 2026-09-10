@@ -209,7 +209,7 @@ body {
 /* 요일별 탭 네비게이션 */
 .day-tabs {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
   gap: 8px;
   margin-bottom: 24px;
 }
@@ -281,6 +281,32 @@ body {
 }
 
 .special-tab.active .tab-day {
+  color: #ffffff;
+}
+
+.transit-tab.active {
+  background: linear-gradient(135deg, #0d6efd 0%, #6f42c1 100%);
+  border-color: #0d6efd;
+}
+
+.transit-tab .tab-day {
+  color: #0d6efd;
+}
+
+.transit-tab.active .tab-day {
+  color: #ffffff;
+}
+
+.food-compare-tab.active {
+  background: linear-gradient(135deg, #e63946 0%, #d90429 100%);
+  border-color: #e63946;
+}
+
+.food-compare-tab .tab-day {
+  color: #e63946;
+}
+
+.food-compare-tab.active .tab-day {
   color: #ffffff;
 }
 
@@ -1156,4 +1182,567 @@ body {
   .modal-footer {
     flex-direction: column;
   }
+  .routes-grid {
+    grid-template-columns: 1fr;
+  }
+  .golden-rules-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   대중교통 노선 시각화 & 초보자 완전정복 가이드 스타일
+========================================================== */
+.transit-guide-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  animation: fadeIn 0.3s ease;
+}
+
+/* 황금 룰 5계명 */
+.golden-rules-section {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.golden-rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.golden-rule-card {
+  background: #f8f9fa;
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  border-left: 4px solid var(--secondary-color);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.golden-rule-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  background: #ffffff;
+}
+
+.golden-rule-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.golden-rule-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-color);
+  font-size: 1rem;
+}
+
+.golden-rule-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--secondary-color);
+  line-height: 1.35;
+}
+
+.golden-rule-tag {
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #e3f2fd;
+  color: #0d47a1;
+}
+
+.golden-rule-desc {
+  font-size: 0.85rem;
+  color: #495057;
+  line-height: 1.55;
+}
+
+/* 6대 핵심 노선 카드 */
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 20px;
+}
+
+.route-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.route-header {
+  padding: 16px 20px;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.route-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.route-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  backdrop-filter: blur(4px);
+}
+
+.route-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.route-company {
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.route-symbol-tag {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.route-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.route-meta-strip {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #f8f9fa;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.83rem;
+}
+
+.route-meta-item strong {
+  color: var(--secondary-color);
+}
+
+.route-section-box {
+  font-size: 0.85rem;
+  color: #1d3557;
+  font-weight: 600;
+  background: #eef2f6;
+  padding: 8px 12px;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.route-features-list {
+  padding-left: 18px;
+  margin: 0;
+  font-size: 0.84rem;
+  color: #495057;
+  line-height: 1.6;
+}
+
+.route-tip-box {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  color: #795548;
+  line-height: 1.5;
+  margin-top: auto;
+}
+
+.route-tip-box strong {
+  color: #bf360c;
+}
+
+/* 일자별 환승 단계 비주얼 다이어그램 (Line Stepper) */
+.daily-flows-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.daily-flow-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.flow-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 10px;
+}
+
+.flow-day-badge {
+  background: var(--secondary-color);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.flow-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--secondary-color);
+}
+
+.stepper-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 10px 4px 16px 4px;
+}
+
+.step-station-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+  text-align: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.node-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 4px solid var(--secondary-color);
+  box-shadow: 0 0 0 2px rgba(29, 53, 87, 0.15);
+  margin-bottom: 6px;
+  z-index: 2;
+}
+
+.node-dot.start {
+  border-color: #e63946;
+}
+
+.node-dot.end {
+  border-color: #198754;
+  background: #198754;
+}
+
+.node-name {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--secondary-color);
+  line-height: 1.25;
+}
+
+.node-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+  line-height: 1.25;
+  max-width: 130px;
+}
+
+.step-transit-segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 130px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.segment-line {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.segment-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 3px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.segment-time {
+  font-size: 0.72rem;
+  color: #495057;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* 타임라인 내 교통 뱃지 고유 스타일 */
+.mini-badge.transit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.74rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.mini-badge.transit-badge:hover {
+  transform: scale(1.05);
+}
+
+.mini-badge.transit-haruka {
+  background: #f3e8ff;
+  color: #6f42c1;
+  border: 1px solid #d8b4fe;
+}
+
+.mini-badge.transit-midosuji {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+}
+
+.mini-badge.transit-rapid {
+  background: #e7f1ff;
+  color: #0d6efd;
+  border: 1px solid #b6d4fe;
+}
+
+.mini-badge.transit-bus {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.mini-badge.transit-randen {
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+
+.mini-badge.transit-nara {
+  background: #efebe9;
+  color: #5d4037;
+  border: 1px solid #d7ccc8;
+}
+
+/* ==========================================================
+   모달 내 한일(韓日) 평가 & 비교 상자 스타일
+========================================================== */
+.modal-eval-box {
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.modal-eval-box.eval-korean {
+  background: #f0f7ff;
+  border-left: 4px solid #0d6efd;
+}
+
+.modal-eval-box.eval-japanese {
+  background: #fff5f5;
+  border-left: 4px solid #e63946;
+}
+
+.modal-eval-box.eval-compare {
+  background: #f8f6fc;
+  border-left: 4px solid #6f42c1;
+}
+
+.eval-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.eval-korean .eval-badge {
+  background: #e3f2fd;
+  color: #0d47a1;
+}
+
+.eval-japanese .eval-badge {
+  background: #ffebee;
+  color: #b71c1c;
+}
+
+.eval-compare .eval-badge {
+  background: #f3e8ff;
+  color: #581c87;
+}
+
+.modal-eval-box p {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #333333;
+  margin: 0;
+}
+
+/* ==========================================================
+   한일 미식 비교 전용 탭 스타일
+========================================================== */
+.food-comparison-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.3s ease;
+}
+
+.compare-category-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  padding: 22px 26px;
+  box-shadow: var(--shadow-sm);
+}
+
+.compare-category-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--secondary-color);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid #f1f3f5;
+  padding-bottom: 10px;
+}
+
+.compare-pair-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .compare-pair-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.compare-spot-box {
+  background: #f8f9fa;
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  border: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.compare-spot-box.is-new {
+  border-color: #ffd8a8;
+  background: #fffcf8;
+}
+
+.spot-tag-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.compare-type-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.compare-type-tag.existing {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.compare-type-tag.new-tag {
+  background: #ffe8cc;
+  color: #d9480f;
+}
+
+.spot-name-h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.eval-review-text {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: #495057;
+}
+
+.compare-verdict-box {
+  background: #f1f8f5;
+  border-left: 4px solid #198754;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #1b4332;
+  font-weight: 600;
 }

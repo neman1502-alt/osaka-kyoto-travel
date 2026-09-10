@@ -175,6 +175,23 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="modal-desc-box" style="font-weight:700;color:#1d3557;">${data.menu}</div>
         <div class="modal-section-title"><i class="fa-solid fa-circle-info"></i> 매장 소개 & 특징</div>
         <div class="modal-desc-box">${data.summary}</div>
+        ${data.koreanReview ? `
+          <div class="modal-section-title" style="margin-top:18px;"><i class="fa-solid fa-comments"></i> 韓日 실사용자 평가 비교 (한국인 vs 일본인)</div>
+          <div class="modal-eval-box eval-korean">
+            <div class="eval-badge">🇰🇷 한국인 관광객 평가</div>
+            <p>${data.koreanReview}</p>
+          </div>
+          <div class="modal-eval-box eval-japanese">
+            <div class="eval-badge">🇯🇵 일본 현지인(로컬) 평가</div>
+            <p>${data.japaneseReview || '현지 미식가들의 호평'}</p>
+          </div>
+          ${data.comparison ? `
+            <div class="modal-eval-box eval-compare">
+              <div class="eval-badge">⚖️ 기존 추천과의 비교 & 추천 포인트</div>
+              <p>${data.comparison}</p>
+            </div>
+          ` : ''}
+        ` : ''}
       `;
     }
     // 선물 15종
@@ -204,11 +221,16 @@ document.addEventListener("DOMContentLoaded", () => {
     modalBody.innerHTML = bodyHtml;
 
     // 지도 검색어 정밀 매핑 (구글 지도 앱/웹 100% 호환)
-    let mapSearchTerm = data.mapQuery || data.address || data.jp || data.name || data.title;
-    if (type === "gift") {
-      mapSearchTerm = "ドン・キホーテ 道頓堀店"; // 선물 구매처인 돈키호테 도톤보리점으로 직결
+    let searchUrl = "";
+    if (data.googleMapsUrl) {
+      searchUrl = data.googleMapsUrl;
+    } else {
+      let mapSearchTerm = data.mapQuery || data.address || data.jp || data.name || data.title;
+      if (type === "gift") {
+        mapSearchTerm = "ドン・キホーテ 道頓堀店";
+      }
+      searchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapSearchTerm)}`;
     }
-    const searchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapSearchTerm)}`;
     modalMapLink.href = searchUrl;
     modalMapLink.style.display = "inline-flex";
 
@@ -241,8 +263,51 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // 대중교통 노선 뱃지 생성 함수
+  function getTransportBadgeHtml(t) {
+    if (!t) return "";
+    let cls = "mini-badge transport transit-badge";
+    let icon = '<i class="fa-solid fa-train"></i>';
+    if (t.includes("하루카")) {
+      cls += " transit-haruka";
+      icon = '<i class="fa-solid fa-train"></i>';
+    } else if (t.includes("미도스지")) {
+      cls += " transit-midosuji";
+      icon = '<i class="fa-solid fa-train-subway"></i>';
+    } else if (t.includes("신쾌속")) {
+      cls += " transit-rapid";
+      icon = '<i class="fa-solid fa-bolt-lightning"></i>';
+    } else if (t.includes("버스") || t.includes("205") || t.includes("206") || t.includes("207")) {
+      cls += " transit-bus";
+      icon = '<i class="fa-solid fa-bus"></i>';
+    } else if (t.includes("란덴")) {
+      cls += " transit-randen";
+      icon = '<i class="fa-solid fa-train-tram"></i>';
+    } else if (t.includes("나라선") || t.includes("보통") || t.includes("Local")) {
+      cls += " transit-nara";
+      icon = '<i class="fa-solid fa-train"></i>';
+    }
+    return `<span class="${cls}" onclick="event.stopPropagation(); window.goToTransitGuide()" title="클릭하여 대중교통 노선 및 탑승 꿀팁 확인">${icon} ${t}</span>`;
+  }
+
+  window.goToTransitGuide = function() {
+    tabs.forEach(t => t.classList.remove("active"));
+    const transitBtn = document.querySelector('.tab-btn[data-day="transit-guide"]');
+    if (transitBtn) transitBtn.classList.add("active");
+    renderTransitGuide();
+    window.scrollTo({ top: 380, behavior: 'smooth' });
+  };
+
   // Day 1 ~ 5 렌더링 (끼니별 3개 선택지 카드 지원)
   function renderDay(dayKey) {
+    if (dayKey === "food-comparison") {
+      renderFoodComparison();
+      return;
+    }
+    if (dayKey === "transit-guide") {
+      renderTransitGuide();
+      return;
+    }
     if (dayKey === "prep-check") {
       renderPrepCheck();
       return;
@@ -254,52 +319,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const scheduleData = {
       day1: [
-        { time: "11:00", activity: "간사이공항 도착 및 입국 심사", transport: "ICOCA 구매", note: "교통카드 발급" },
+        { time: "11:00", activity: "간사이공항 도착 및 입국 심사", transport: "ICOCA 발권", note: "교통카드 발급" },
         { time: "12:00", activity: "체크아웃 완료 / 편의점 간식 구매", note: "로손/패밀리마트" },
-        { time: "12:00~13:00", activity: "우메다 이동 (하루카 특급)", transport: "하루카 특급", note: "외국인 30% 할인" },
+        { time: "12:00~13:00", activity: "우메다 이동 (하루카 특급 45분)", transport: "JR 하루카 특급", note: "외국인 30% 할인" },
         { time: "13:00~13:30", activity: "우메다역 코인라커 짐 보관", note: "JR 오사카역 B1" },
         { time: "13:30~15:30", activity: "우메다 스카이빌딩 공중정원 전망대", spotKey: "umeda_sky", note: "★주유패스 무료(16시전)" },
-        { time: "15:30~16:30", activity: "숙소 이동 및 체크인 (온야도 노노 난바)", note: "천연 온천 호텔" },
+        { time: "15:30~16:30", activity: "숙소 이동 및 체크인 (온야도 노노 난바)", transport: "오사카 메트로 미도스지선", note: "천연 온천 호텔" },
         { time: "16:30~18:00", activity: "쿠로몬 시장 & 난바 탐방", spotKey: "kuromon_market", note: "해산물 미식" },
         { time: "18:00~19:30", activity: "저녁 식사 (3개 선택지 중 선택)", note: "이치란 / 야마쇼 / 츠루동탄" },
         { time: "19:30~", activity: "호텔 천연 온천 휴식 & 도톤보리 야경", spotKey: "dotonbori", note: "힐링 타임" }
       ],
       day2: [
-        { time: "08:30~11:30", activity: "츠텐카쿠 타워 & 신세카이 레트로 골목", spotKey: "tsutenkaku", note: "★주유패스 무료" },
+        { time: "08:30~11:30", activity: "츠텐카쿠 타워 & 신세카이 레트로 골목", transport: "미도스지선 (도부츠엔마에행)", spotKey: "tsutenkaku", note: "★주유패스 무료" },
         { time: "11:30~12:30", activity: "점심: 신세카이 맛집 (3개 선택지)", note: "원조 다루마 / 야에카츠 / 도쿠마사" },
         { time: "12:30~13:30", activity: "오사카 수상 크루즈 아쿠아라이너 탑승", spotKey: "osaka_cruise", note: "★주유패스 무료" },
-        { time: "13:30~16:00", activity: "오사카성 천수각 & 성곽공원 관람", spotKey: "osaka_castle", note: "★주유패스 무료" },
+        { time: "13:30~16:00", activity: "오사카성 천수각 & 성곽공원 관람", transport: "오사카 지하철 주오선", spotKey: "osaka_castle", note: "★주유패스 무료" },
         { time: "16:00~18:00", activity: "도톤보리 거리 구경 & 에비스바시 글리코상", spotKey: "dotonbori", note: "기념 촬영" },
         { time: "18:00~19:30", activity: "저녁 식사 (3개 선택지 중 선택)", note: "킨류 라멘 / 아지노야 / 쿠쿠루" },
         { time: "19:30~21:30", activity: "돈키호테 도톤보리점 쇼핑 (푸푸리 득템!)", giftKey: "shoshugen_poopourri", note: "면세 10% + 5% 쿠폰" }
       ],
       day3: [
         { time: "08:30~10:00", activity: "아침 기상 & 조식 후 체크아웃 준비" },
-        { time: "10:30~11:00", activity: "오사카 ➔ 교토 이동 (JR 신쾌속 직통 28분)", transport: "JR 신쾌속 (560엔)" },
+        { time: "10:30~11:00", activity: "오사카 ➔ 교토 이동 (JR 신쾌속 직통 28분)", transport: "JR 신쾌속 (28분 직통, 560엔)" },
         { time: "11:30~12:15", activity: "교토 숙소 체크인 및 짐 보관 (사쿠라 테라스 더 갤러리)", note: "교토역 도보 2분" },
         { time: "12:30~13:30", activity: "점심: 교토역 맛집 (3개 선택지)", note: "동양정 함박 / 소바도코로 아오이 / 와라자야" },
-        { time: "14:00~16:30", activity: "청수사 (기요미즈테라) & 산넨자카·니넨자카 산책", spotKey: "kiyomizu_dera", note: "★유네스코 세계유산" },
+        { time: "14:00~16:30", activity: "청수사 (기요미즈테라) & 산넨자카·니넨자카 산책", transport: "교토 시버스 206/207번 (230엔)", spotKey: "kiyomizu_dera", note: "★유네스코 세계유산" },
         { time: "16:30~18:30", activity: "교토 GU 쇼핑 탐방 (아반티점 / 카와라마치점)", spotKey: "gu_kyoto", note: "🛍️ 면세 10% 쇼핑" },
         { time: "18:30~20:00", activity: "저녁: 기온 & 카와라마치 (3개 선택지)", note: "멘야 이노이치 / 사사야 / 이즈모야" },
         { time: "20:00~21:30", activity: "폰토쵸 골목 등롱 야경 산책 & 츠지리 말차", spotKey: "pontocho", note: "감성 야경 & 디저트" }
       ],
       day4: [
         { time: "07:00~08:00", activity: "아침 식사 (3개 선택지 중 선택)", note: "팡토 에스프레소토 / 사가노 / 오츠카" },
-        { time: "08:00~10:00", activity: "아라시야마 대나무숲 (치쿠린) 아침 산책", spotKey: "arashiyama_bamboo", note: "★한적한 아침 힐링" },
+        { time: "08:00~10:00", activity: "아라시야마 대나무숲 (치쿠린) 아침 산책", transport: "JR 산인선 (16분 직통)", spotKey: "arashiyama_bamboo", note: "★한적한 아침 힐링" },
         { time: "10:00~10:30", activity: "아라시야마 강변 카페 & 말차 타임", note: "% 아라비카 / 요지야" },
-        { time: "10:30~11:00", activity: "란덴(嵐電) 전차 타고 사이인역 이동 (직통 15분)", transport: "란덴 아라시야마선 (250엔)" },
+        { time: "10:30~11:00", activity: "란덴(嵐電) 전차 타고 사이인역 이동 (직통 15분)", transport: "란덴 노면전차 (직통 15분, 250엔)" },
         { time: "11:00~13:00", activity: "🙏 교토교회 주일예배 참석 (사이인역 인근)", spotKey: "kyoto_church", note: "필수 고정 일정" },
         { time: "13:00~14:30", activity: "사이인역 점심 (3개 선택지 중 선택)", note: "로컬 테이쇼쿠 / 말차소바 / 카레" },
-        { time: "15:00~17:30", activity: "니시키 시장 미식 탐방 & 시조 거리 산책", spotKey: "nishiki_market", note: "400년 전통 미식 & 티라미수" },
+        { time: "15:00~17:30", activity: "니시키 시장 미식 탐방 & 시조 거리 산책", transport: "한큐 전철 또는 교토 시버스", spotKey: "nishiki_market", note: "400년 전통 미식 & 티라미수" },
         { time: "18:00~20:00", activity: "사이인역 저녁 (3개 선택지 중 선택)", note: "숯불 야키니쿠 코마 / 토리키조쿠" }
       ],
       day5: [
         { time: "07:30~08:30", activity: "교토 클래식 모닝 (3개 선택지)", note: "이노다 커피 / 스마트 커피 / 호텔뷔페" },
-        { time: "08:30~10:45", activity: "후시미 이나리 신사 (센본토리이 붉은 도리이 길)", spotKey: "fushimi_inari", note: "★아침 한산한 포토타임" },
-        { time: "11:00~12:00", activity: "교토역 복귀 & 이세탄 백화점·포르타 기념품 쇼핑", note: "차노카 / 로이스 / 나카무라 토키치" },
+        { time: "08:30~10:45", activity: "후시미 이나리 신사 (센본토리이 붉은 도리이 길)", transport: "JR 나라선 보통 (단 5분 직통, 150엔)", spotKey: "fushimi_inari", note: "★아침 한산한 포토타임" },
+        { time: "11:00~12:00", activity: "교토역 복귀 & 이세탄 백화점·포르타 기념품 쇼핑", transport: "JR 나라선 보통 (5분 복귀)", note: "차노카 / 로이스 / 나카무라 토키치" },
         { time: "12:00~13:30", activity: "점심 식사 (3개 선택지 중 선택)", note: "교토역 스이센 / 동양정 / 라멘코지" },
         { time: "13:30~14:00", activity: "호텔 짐 픽업 & 하루카 특급열차 승강장 이동" },
-        { time: "14:00~15:15", activity: "하루카 특급 탑승 ➔ 간사이공항 직통 (75분)", transport: "하루카 (외국인 30% 할인)" },
+        { time: "14:00~15:15", activity: "하루카 특급 탑승 ➔ 간사이공항 직통 (75분)", transport: "JR 하루카 특급 (75분 직통)" },
         { time: "15:30~18:00", activity: "공항 체크인 & 면세점 쇼핑 (로이스 생초콜릿 등)", giftKey: "royce_chocolate", note: "탑승 대기" },
         { time: "18:15", activity: "✈️ 간사이공항 출발 ➔ 20:10 인천공항 도착" }
       ]
@@ -325,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="t-title">${item.activity}</div>
             <div class="t-badges">
               ${isPass ? '<span class="mini-badge pass">★ 오사카 주유패스 무료</span>' : ''}
-              ${item.transport ? `<span class="mini-badge transport"><i class="fa-solid fa-train"></i> ${item.transport}</span>` : ''}
+              ${getTransportBadgeHtml(item.transport)}
               ${isChurch ? '<span class="mini-badge church">🙏 필수 고정 일정</span>' : ''}
               ${item.note && !isPass ? `<span class="mini-badge" style="background:#e9ecef;color:#495057;">${item.note}</span>` : ''}
               ${clickAttr ? '<span class="mini-badge" style="background:#fdf2f2;color:#e63946;"><i class="fa-solid fa-magnifying-glass-plus"></i> 상세정보</span>' : ''}
@@ -352,7 +417,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let cardsInSlot = "";
       optList.forEach((m, idx) => {
         const isMatcha = m.isMatcha;
-        const foodMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.mapQuery || m.jp || m.name)}`;
+        const foodMapUrl = m.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.mapQuery || m.jp || m.name)}`;
         cardsInSlot += `
           <div class="food-choice-card ${isMatcha ? 'matcha-card' : ''}" onclick="openDetailModal('meal', '${m.id}')" title="클릭하여 상세 메뉴 및 특징 확인">
             <div class="choice-tag">${optLabels[idx]}</div>
@@ -428,6 +493,233 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
     contentArea.innerHTML = dayHtml;
+  }
+
+  // 한일 미식 심층 비교 & 신규 추천 8곳 탭 렌더링
+  function renderFoodComparison() {
+    const list = TRAVEL_DETAILS.foodComparison || [];
+    let cardsHtml = "";
+
+    list.forEach((item, idx) => {
+      cardsHtml += `
+        <div class="compare-category-card">
+          <div class="compare-category-title">
+            <i class="fa-solid fa-utensils" style="color:#e63946;"></i> ${idx + 1}. ${item.category}
+          </div>
+          
+          <div class="compare-pair-grid">
+            <!-- 기존 또는 비교 A -->
+            <div class="compare-spot-box">
+              <div class="spot-tag-row">
+                <span class="compare-type-tag existing">${item.spotA.type}</span>
+                <span class="tabelog-tag">${item.spotA.tabelog}</span>
+              </div>
+              <h4 class="spot-name-h4">${item.spotA.name}</h4>
+              <div class="eval-review-text" style="margin-top:6px;">
+                <strong style="color:#0d6efd;">🇰🇷 한국인 관광객 평가:</strong><br>${item.spotA.korean}
+              </div>
+              <div class="eval-review-text" style="margin-top:6px;">
+                <strong style="color:#b71c1c;">🇯🇵 일본 현지인(로컬) 평가:</strong><br>${item.spotA.japanese}
+              </div>
+            </div>
+
+            <!-- 신규 추천 B -->
+            <div class="compare-spot-box is-new">
+              <div class="spot-tag-row">
+                <span class="compare-type-tag new-tag">${item.spotB.type}</span>
+                <span class="tabelog-tag">${item.spotB.tabelog}</span>
+              </div>
+              <h4 class="spot-name-h4">${item.spotB.name}</h4>
+              <div class="eval-review-text" style="margin-top:6px;">
+                <strong style="color:#0d6efd;">🇰🇷 한국인 관광객 평가:</strong><br>${item.spotB.korean}
+              </div>
+              <div class="eval-review-text" style="margin-top:6px;">
+                <strong style="color:#b71c1c;">🇯🇵 일본 현지인(로컬) 평가:</strong><br>${item.spotB.japanese}
+              </div>
+            </div>
+          </div>
+
+          <div class="compare-verdict-box">
+            <i class="fa-solid fa-lightbulb" style="color:#198754;"></i> <strong>에이전트 맞춤 선택 가이드:</strong> ${item.recommendation}
+          </div>
+        </div>
+      `;
+    });
+
+    const fullHtml = `
+      <div class="food-comparison-container">
+        <div class="day-header-card" style="border-left-color: #e63946;">
+          <div class="day-header-title">
+            <h2>🍱 식당·카페 한일(韓日) 평가 심층 비교 & 신규 추천 8선</h2>
+            <p>한국인 관광객의 실제 후기(가성비, 웨이팅, 한국인 입맛)와 일본 현지인의 관점(타베로그 점수, 로컬 찐맛, 오모테나시)을 1:1로 비교 분석했습니다.</p>
+          </div>
+        </div>
+
+        <div style="background:#fff3cd;padding:14px 18px;border-radius:8px;border:1px solid #ffeeba;font-size:0.86rem;color:#856404;line-height:1.6;">
+          <i class="fa-solid fa-shield-halved"></i> <strong>평가 기준 안내:</strong> 타 국적의 무관한 평가는 일체 배제하고, <strong>실제 한국인 관광객의 솔직한 피드백</strong>과 <strong>일본 현지 로컬 미식가/타베로그 평가</strong>만을 엄선하여 객관적인 선택 기준을 제공합니다.
+        </div>
+
+        <div class="comparison-list">
+          ${cardsHtml}
+        </div>
+      </div>
+    `;
+
+    contentArea.innerHTML = fullHtml;
+  }
+
+  // 대중교통 노선 시각화 및 초보자 완전정복 가이드 탭
+  function renderTransitGuide() {
+    const guide = TRAVEL_DETAILS.transitGuide;
+    if (!guide) return;
+
+    // 1. 황금 룰 5계명
+    let rulesHtml = "";
+    guide.goldenRules.forEach(r => {
+      rulesHtml += `
+        <div class="golden-rule-card">
+          <div class="golden-rule-header">
+            <div class="golden-rule-icon"><i class="fa-solid ${r.icon}"></i></div>
+            <div class="golden-rule-title">${r.title}</div>
+          </div>
+          <span class="golden-rule-tag">${r.tag}</span>
+          <div class="golden-rule-desc">${r.desc}</div>
+        </div>
+      `;
+    });
+
+    // 2. 6대 핵심 노선 카드
+    let routesHtml = "";
+    guide.routes.forEach(route => {
+      const featuresHtml = route.features.map(f => `<li>${f}</li>`).join("");
+      routesHtml += `
+        <div class="route-card" style="border-top: 5px solid ${route.color};">
+          <div class="route-header" style="background:${route.color};">
+            <div class="route-title-group">
+              <div class="route-icon-box"><i class="fa-solid ${route.icon}"></i></div>
+              <div>
+                <div class="route-name">${route.name}</div>
+                <div class="route-company">${route.company}</div>
+              </div>
+            </div>
+            <div class="route-symbol-tag">${route.symbol}</div>
+          </div>
+          <div class="route-body">
+            <div class="route-section-box">
+              <i class="fa-solid fa-route"></i> <strong>탑승 구간:</strong> ${route.section}
+            </div>
+            <div class="route-meta-strip">
+              <div class="route-meta-item"><strong>예상 요금:</strong> ${route.fare}</div>
+              <div class="route-meta-item"><strong>열차 유형:</strong> ${route.type}</div>
+            </div>
+            <div>
+              <strong style="font-size:0.86rem;color:#1d3557;"><i class="fa-solid fa-circle-check" style="color:#198754;"></i> 핵심 노선 특징:</strong>
+              <ul class="route-features-list" style="margin-top:6px;">
+                ${featuresHtml}
+              </ul>
+            </div>
+            <div class="route-tip-box">
+              <strong><i class="fa-solid fa-triangle-exclamation"></i> 초보자 필독 팁 & 주의사항:</strong><br>
+              ${route.beginnerTip}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    // 3. 일자별 환승 단계 비주얼 노선도 (Day 1 ~ Day 5)
+    let flowsHtml = "";
+    guide.dailyFlows.forEach(flow => {
+      let stepsHtml = "";
+      flow.steps.forEach(step => {
+        if (step.station) {
+          const dotClass = step.isStart ? "start" : (step.isEnd ? "end" : "");
+          stepsHtml += `
+            <div class="step-station-node">
+              <div class="node-dot ${dotClass}"></div>
+              <div class="node-name">${step.station}</div>
+              <div class="node-desc">${step.desc}</div>
+            </div>
+          `;
+        } else if (step.line) {
+          stepsHtml += `
+            <div class="step-transit-segment">
+              <div class="segment-line" style="background:${step.color};"></div>
+              <div class="segment-pill" style="background:${step.color};">
+                <i class="fa-solid ${step.icon}"></i> ${step.line}
+              </div>
+              <div class="segment-time">${step.time}</div>
+            </div>
+          `;
+        }
+      });
+
+      flowsHtml += `
+        <div class="daily-flow-card">
+          <div class="flow-header">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="flow-day-badge">${flow.day}</span>
+              <span style="font-size:0.85rem;color:#6c757d;font-weight:600;">${flow.date}</span>
+            </div>
+            <div class="flow-title">${flow.title}</div>
+          </div>
+          <div class="stepper-track">
+            ${stepsHtml}
+          </div>
+        </div>
+      `;
+    });
+
+    const fullTransitHtml = `
+      <div class="transit-guide-container">
+        <!-- 헤더 배너 -->
+        <div class="day-header-card" style="border-left-color: #0d6efd;">
+          <div class="day-header-title">
+            <h2>🚇 일본 첫 여행자를 위한 대중교통 100% 완전정복 가이드</h2>
+            <p>복잡해 보이는 일본 교통, 이것만 알면 절대 길을 잃지 않습니다! 실제 우리가 탑승할 6대 핵심 노선의 특징과 탑승 꿀팁을 시각화했습니다.</p>
+          </div>
+        </div>
+
+        <!-- 1. 황금 룰 5계명 -->
+        <div class="golden-rules-section">
+          <div class="section-title"><i class="fa-solid fa-shield-halved" style="color:#e63946;"></i> 일본 대중교통 5대 핵심 황금 룰 (초보자 필수 숙지)</div>
+          <p style="font-size:0.86rem;color:#6c757d;">한국과 가장 다른 5가지 교통 규칙을 출발 전에 꼭 읽어보세요!</p>
+          <div class="golden-rules-grid">
+            ${rulesHtml}
+          </div>
+        </div>
+
+        <!-- 2. 일자별 이동 경로 시각화 노선도 -->
+        <div>
+          <div class="section-title"><i class="fa-solid fa-map-pin" style="color:#0d6efd;"></i> 일자별 환승 & 이동 단계 비주얼 노선도 (Day 1 ~ Day 5)</div>
+          <p style="font-size:0.86rem;color:#6c757d;margin-bottom:14px;">출발역부터 환승 노선, 소요시간, 도착역까지 한눈에 파악하세요.</p>
+          <div class="daily-flows-container">
+            ${flowsHtml}
+          </div>
+        </div>
+
+        <!-- 3. 우리가 실제로 타는 6대 핵심 노선 심층 시각화 -->
+        <div>
+          <div class="section-title"><i class="fa-solid fa-train-subway" style="color:#6f42c1;"></i> 우리가 탑승할 6대 핵심 노선 심층 카드 & 탑승 팁</div>
+          <p style="font-size:0.86rem;color:#6c757d;margin-bottom:14px;">노선별 공식 색상, 요금, 배차 특징, 그리고 처음 탈 때 주의해야 할 체크포인트입니다.</p>
+          <div class="routes-grid">
+            ${routesHtml}
+          </div>
+        </div>
+
+        <!-- 4. ICOCA 교통카드 이용 가이드 -->
+        <div class="golden-rules-section" style="border-left: 5px solid #20c997;">
+          <div class="section-title"><i class="fa-solid fa-credit-card" style="color:#20c997;"></i> 교통카드(ICOCA) 발권 및 충전 꿀팁</div>
+          <div style="font-size:0.88rem;color:#495057;line-height:1.7;">
+            <p><strong>🔹 발권 방법:</strong> 간사이공항 2층 JR 개찰구 옆 파란색/초록색 자동발권기에서 한국어 선택 후 [ICOCA 구입] 터치 (보증금 500엔 + 충전금 1,500엔 = 2,000엔 현금 투입).</p>
+            <p><strong>🔹 충전 방법:</strong> 여행 중 잔액이 부족해지면 지하철/JR 역의 모든 교통카드 충전기(精算機 / Fare Adjustment)에서 1,000엔 단위로 현금 충전 가능합니다.</p>
+            <p><strong>🔹 아이폰 유저 꿀팁:</strong> 애플월렛에서 '파스모(PASMO)' 또는 '스이카(Suica)'를 마스터/현대카드로 즉시 발급받으면 간사이공항에서 실물 카드 살 필요 없이 스마트폰 태그만으로 전철·버스를 바로 타실 수 있습니다!</p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    contentArea.innerHTML = fullTransitHtml;
   }
 
   // 한국 출발 전 사전구매 체크리스트 탭
