@@ -108,8 +108,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!data) return;
 
     modalTitle.textContent = data.title || data.name;
-    modalSubtitle.textContent = `${data.jp || ''} ${data.en ? '• ' + data.en : ''}`;
-    modalCategoryBadge.textContent = data.badge || data.category || (data.isMatcha ? "🍵 말차 특화 코스" : "추천 미식");
+    if (type === "meal") {
+      const isDessert = data.type === "dessert" || (data.category && (data.category.includes("디저트") || data.category.includes("카페") || data.category.includes("과자") || data.category.includes("빙수")));
+      if (isDessert) {
+        modalCategoryBadge.className = "modal-badge color-badge-yellow";
+        modalCategoryBadge.innerHTML = '<i class="fa-solid fa-cake-candles"></i> 디저트 (노랑)';
+      } else {
+        modalCategoryBadge.className = "modal-badge color-badge-black";
+        modalCategoryBadge.innerHTML = '<i class="fa-solid fa-utensils"></i> 식당 (검정)';
+      }
+    } else if (type === "spot") {
+      modalCategoryBadge.className = "modal-badge color-badge-spot";
+      modalCategoryBadge.innerHTML = '<i class="fa-solid fa-landmark"></i> 주요 관광지 (빨강)';
+    } else {
+      modalCategoryBadge.className = "modal-badge";
+      modalCategoryBadge.textContent = data.badge || data.category || "🎁 추천 상품";
+    }
     modalVerifiedTag.textContent = data.verified || (data.tabelog ? `⭐ 타베로그 ${data.tabelog}` : "✅ 2026년 실사 검증");
     currentTargetAddress = data.address || data.station || data.locations || data.jp || data.name;
 
@@ -290,6 +304,16 @@ document.addEventListener("DOMContentLoaded", () => {
     return `<span class="${cls}" onclick="event.stopPropagation(); window.goToTransitGuide()" title="클릭하여 대중교통 노선 및 탑승 꿀팁 확인">${icon} ${t}</span>`;
   }
 
+  
+  // 지도 탭으로 전환하고 특정 스팟에 포커스
+  window.goToInteractiveMap = function(dayKey, spotKey) {
+    tabs.forEach(t => t.classList.remove("active"));
+    const mapTabBtn = document.querySelector('.tab-btn[data-day="interactive-map"]');
+    if (mapTabBtn) mapTabBtn.classList.add("active");
+    renderInteractiveMap(dayKey || 'all', 'all', spotKey);
+    window.scrollTo({ top: 380, behavior: 'smooth' });
+  };
+
   window.goToTransitGuide = function() {
     tabs.forEach(t => t.classList.remove("active"));
     const transitBtn = document.querySelector('.tab-btn[data-day="transit-guide"]');
@@ -300,6 +324,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Day 1 ~ 5 렌더링 (끼니별 3개 선택지 카드 지원)
   function renderDay(dayKey) {
+    if (dayKey === "interactive-map") {
+      renderInteractiveMap();
+      return;
+    }
     if (dayKey === "food-comparison") {
       renderFoodComparison();
       return;
@@ -417,10 +445,17 @@ document.addEventListener("DOMContentLoaded", () => {
       let cardsInSlot = "";
       optList.forEach((m, idx) => {
         const isMatcha = m.isMatcha;
+        const isDessert = slotKey === "dessert_matcha" || m.type === "dessert" || (m.category && (m.category.includes("디저트") || m.category.includes("카페") || m.category.includes("과자") || m.category.includes("빙수")));
+        const colorTagHtml = isDessert 
+          ? '<span class="color-badge-yellow"><i class="fa-solid fa-cake-candles"></i> 디저트 (노랑)</span>'
+          : '<span class="color-badge-black"><i class="fa-solid fa-utensils"></i> 식당 (검정)</span>';
         const foodMapUrl = m.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.mapQuery || m.jp || m.name)}`;
         cardsInSlot += `
           <div class="food-choice-card ${isMatcha ? 'matcha-card' : ''}" onclick="openDetailModal('meal', '${m.id}')" title="클릭하여 상세 메뉴 및 특징 확인">
-            <div class="choice-tag">${optLabels[idx]}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div class="choice-tag" style="margin-bottom:0;">${optLabels[idx]}</div>
+              <div>${colorTagHtml}</div>
+            </div>
             <div class="food-head">
               <span class="food-name">
                 ${m.name}
@@ -460,6 +495,108 @@ document.addEventListener("DOMContentLoaded", () => {
       day5: { date: "09.21", dow: "월요일", theme: "후시미이나리 센본도리이 & 교토역 쇼핑 & 하루카 특급 귀국", city: "교토 ➔ 간사이공항" }
     }[dayKey];
 
+    
+    // [관광지별 인근 맛집(검정) & 디저트(노랑) 바로가기 섹션 생성]
+    const nearbyData = TRAVEL_DETAILS.nearbyGuide || {};
+    let dayNearbyCardsHtml = "";
+    
+    for (const [sKey, spot] of Object.entries(nearbyData)) {
+      if (spot.day === dayKey) {
+        let spotRestHtml = "";
+        spot.restaurants.forEach(r => {
+          spotRestHtml += `
+            <div class="nearby-card is-black" style="margin-bottom:8px;">
+              <div class="nearby-card-head">
+                <span class="nearby-card-title">${r.name}</span>
+                <span class="tabelog-tag">⭐ ${r.tabelog}</span>
+              </div>
+              <div style="margin-bottom:4px;">
+                <span class="color-badge-black"><i class="fa-solid fa-utensils"></i> 식당 (검정)</span>
+                <span class="nearby-walk-pill walk-black" style="margin-left:6px;"><i class="fa-solid fa-person-walking"></i> ${r.walkTime}</span>
+              </div>
+              <div class="nearby-menu-line" style="margin-bottom:6px;"><strong>메뉴:</strong> ${r.menu}</div>
+              <div class="nearby-actions-row">
+                <a href="${r.directionsUrl}" target="_blank" class="btn-directions">
+                  <i class="fa-solid fa-route"></i> 도보 길찾기
+                </a>
+                <a href="${r.googleMapsUrl}" target="_blank" class="btn-spot-link">
+                  <i class="fa-solid fa-location-dot"></i> 구글맵 위치
+                </a>
+                <button class="btn-spot-link" onclick="openDetailModal('meal', '${r.id}')">
+                  <i class="fa-solid fa-circle-info"></i> 상세정보
+                </button>
+              </div>
+            </div>
+          `;
+        });
+
+        let spotDessertHtml = "";
+        if (spot.desserts && spot.desserts.length > 0) {
+          spot.desserts.forEach(d => {
+            spotDessertHtml += `
+              <div class="nearby-card is-yellow" style="margin-bottom:8px;">
+                <div class="nearby-card-head">
+                  <span class="nearby-card-title">${d.name}</span>
+                  <span class="tabelog-tag">⭐ ${d.tabelog}</span>
+                </div>
+                <div style="margin-bottom:4px;">
+                  <span class="color-badge-yellow"><i class="fa-solid fa-cake-candles"></i> 디저트 (노랑)</span>
+                  <span class="nearby-walk-pill walk-yellow" style="margin-left:6px;"><i class="fa-solid fa-person-walking"></i> ${d.walkTime}</span>
+                </div>
+                <div class="nearby-menu-line" style="margin-bottom:6px;"><strong>메뉴:</strong> ${d.menu}</div>
+                <div class="nearby-actions-row">
+                  <a href="${d.directionsUrl}" target="_blank" class="btn-directions">
+                    <i class="fa-solid fa-route"></i> 도보 길찾기
+                  </a>
+                  <a href="${d.googleMapsUrl}" target="_blank" class="btn-spot-link">
+                    <i class="fa-solid fa-location-dot"></i> 구글맵 위치
+                  </a>
+                  <button class="btn-spot-link" onclick="openDetailModal('meal', '${d.id}')">
+                    <i class="fa-solid fa-circle-info"></i> 상세정보
+                  </button>
+                </div>
+              </div>
+            `;
+          });
+        }
+
+        dayNearbyCardsHtml += `
+          <div class="day-spot-card">
+            <div class="day-spot-header">
+              <div>
+                <h4><i class="fa-solid fa-landmark" style="color:#e63946;"></i> ${spot.spotTitle}</h4>
+                <div class="spot-jp-text">${spot.spotJp}</div>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <a href="${spot.googleMapsUrl}" target="_blank" class="btn-spot-link" title="구글맵에서 관광지 열기">
+                  <i class="fa-solid fa-map-pin"></i> 관광지
+                </a>
+                <button class="btn-spot-link" style="background:#0d6efd;color:#fff;" onclick="window.goToInteractiveMap('${dayKey}', '${sKey}')" title="연동 지도에서 확인">
+                  <i class="fa-solid fa-map-location-dot"></i> 연동 지도
+                </button>
+              </div>
+            </div>
+
+            <div style="margin-top:4px;">
+              <div style="font-size:0.84rem;font-weight:800;color:#111;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+                <span class="color-badge-black"><i class="fa-solid fa-utensils"></i> 인근 식당 (검정)</span>
+              </div>
+              ${spotRestHtml}
+            </div>
+
+            ${spotDessertHtml ? `
+              <div style="margin-top:6px;">
+                <div style="font-size:0.84rem;font-weight:800;color:#111;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+                  <span class="color-badge-yellow"><i class="fa-solid fa-cake-candles"></i> 인근 디저트·카페 (노랑)</span>
+                </div>
+                ${spotDessertHtml}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+    }
+
     const dayHtml = `
       <div class="day-view-container">
         <div class="day-header-card">
@@ -488,6 +625,19 @@ document.addEventListener("DOMContentLoaded", () => {
               <p style="font-size:0.84rem;color:#6c757d;margin-bottom:14px;">취향과 대기 시간에 따라 Option A, B, C 중 자유롭게 선택하세요!</p>
               <div>${mealsSectionHtml}</div>
             </div>
+          </div>
+        </div>
+
+        <!-- 오늘 관광지별 인근 추천 맛집(검정) & 디저트(노랑) 바로가기 가이드 -->
+        <div class="day-nearby-guide-wrapper">
+          <div class="day-nearby-guide-title">
+            <i class="fa-solid fa-map-location-dot" style="color:#0d6efd;"></i> 오늘 코스 관광지별 인근 맛집(검정) & 디저트(노랑) 바로가기
+          </div>
+          <div class="day-nearby-guide-sub">
+            관광지 관람 전후로 인근의 검증된 맛집과 디저트 매장을 원클릭 구글맵 도보 길찾기로 편리하게 찾아가실 수 있습니다.
+          </div>
+          <div class="day-nearby-spot-grid">
+            ${dayNearbyCardsHtml}
           </div>
         </div>
       </div>
