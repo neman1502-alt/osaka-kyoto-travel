@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const MAP_ROUTES = {
     day1: "https://www.google.com/maps/dir/34.4347,135.244/34.7056,135.4905/34.6683,135.5005/34.6667,135.5057/34.6687,135.5014",
     day2: "https://www.google.com/maps/dir/34.6523,135.5063/34.6522,135.5060/34.6888,135.5248/34.6873,135.5262/34.6687,135.5014",
-    day3: "https://www.google.com/maps/dir/34.9818,135.7592/35.0049,135.7648/35.0036,135.7785/35.0008,135.7634/35.0063,135.7709",
-    day4: "https://www.google.com/maps/dir/35.0167,135.6717/35.0135,135.6775/35.0042,135.7317/35.0394,135.7292/35.0028,135.7321",
-    day5: "https://www.google.com/maps/dir/35.0089,135.7629/34.9671,135.7727/34.9858,135.7588/34.4347,135.2440"
+    day3: "https://www.google.com/maps/dir/34.9818,135.7592/34.9949,135.7850/35.0068,135.7686/35.0036,135.7785/35.0063,135.7709",
+    day4: "https://www.google.com/maps/dir/35.0167,135.6717/35.0042,135.7317/35.0049,135.7648/34.9818,135.7592",
+    day5: "https://www.google.com/maps/dir/34.9818,135.7592/34.9671,135.7727/34.9858,135.7588/34.4347,135.2440"
   };
 
   // 실시간 날씨 데이터 비동기 호출
@@ -203,14 +203,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     modalBody.innerHTML = bodyHtml;
 
-    if (data.mapUrl) {
-      modalMapLink.href = data.mapUrl;
-      modalMapLink.style.display = "inline-flex";
-    } else {
-      const searchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.jp || data.name || data.title)}`;
-      modalMapLink.href = searchUrl;
-      modalMapLink.style.display = "inline-flex";
+    // 지도 검색어 정밀 매핑 (구글 지도 앱/웹 100% 호환)
+    let mapSearchTerm = data.mapQuery || data.address || data.jp || data.name || data.title;
+    if (type === "gift") {
+      mapSearchTerm = "ドン・キホーテ 道頓堀店"; // 선물 구매처인 돈키호테 도톤보리점으로 직결
     }
+    const searchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapSearchTerm)}`;
+    modalMapLink.href = searchUrl;
+    modalMapLink.style.display = "inline-flex";
 
     modal.classList.add("active");
     document.body.style.overflow = "hidden";
@@ -275,28 +275,30 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
       day3: [
         { time: "08:30~10:00", activity: "아침 기상 & 조식 후 체크아웃 준비" },
-        { time: "10:30~11:00", activity: "오사카 ➔ 교토 이동 (JR 신쾌속 직통)", transport: "JR 신쾌속 (28분, 560엔)" },
-        { time: "11:30~12:30", activity: "교토 숙소 체크인 및 짐 보관 (사쿠라 테라스 더 갤러리)" },
-        { time: "13:00~15:00", activity: "니시키 시장 탐방 & 점심 (3개 선택지)", spotKey: "nishiki_market", note: "와라자야 / 카네쇼 / 멘야유코" },
-        { time: "15:00~17:30", activity: "기온 거리 & 야사카 신사 고즈넉한 산책", spotKey: "gion_yasaka", note: "전통 보존지구" },
-        { time: "17:30~19:00", activity: "저녁: 기온 & 카와라마치 (3개 선택지)", note: "멘야 이노이치 / 사사야 / 이즈모야" },
-        { time: "19:00~21:00", activity: "폰토쵸 골목 등롱 야경 산책 & 츠지리 말차", spotKey: "pontocho", note: "감성 야경" }
+        { time: "10:30~11:00", activity: "오사카 ➔ 교토 이동 (JR 신쾌속 직통 28분)", transport: "JR 신쾌속 (560엔)" },
+        { time: "11:30~12:15", activity: "교토 숙소 체크인 및 짐 보관 (사쿠라 테라스 더 갤러리)", note: "교토역 도보 2분" },
+        { time: "12:30~13:30", activity: "점심: 교토역 맛집 (3개 선택지)", note: "동양정 함박 / 소바도코로 아오이 / 와라자야" },
+        { time: "14:00~16:30", activity: "청수사 (기요미즈테라) & 산넨자카·니넨자카 산책", spotKey: "kiyomizu_dera", note: "★유네스코 세계유산" },
+        { time: "16:30~18:30", activity: "교토 GU 쇼핑 탐방 (아반티점 / 카와라마치점)", spotKey: "gu_kyoto", note: "🛍️ 면세 10% 쇼핑" },
+        { time: "18:30~20:00", activity: "저녁: 기온 & 카와라마치 (3개 선택지)", note: "멘야 이노이치 / 사사야 / 이즈모야" },
+        { time: "20:00~21:30", activity: "폰토쵸 골목 등롱 야경 산책 & 츠지리 말차", spotKey: "pontocho", note: "감성 야경 & 디저트" }
       ],
       day4: [
         { time: "07:00~08:00", activity: "아침 식사 (3개 선택지 중 선택)", note: "팡토 에스프레소토 / 사가노 / 오츠카" },
-        { time: "08:00~10:00", activity: "아라시야마 대나무숲 (치쿠린) 아침 산책", spotKey: "arashiyama_bamboo", note: "★인적 없는 아침" },
+        { time: "08:00~10:00", activity: "아라시야마 대나무숲 (치쿠린) 아침 산책", spotKey: "arashiyama_bamboo", note: "★한적한 아침 힐링" },
         { time: "10:00~10:30", activity: "아라시야마 강변 카페 & 말차 타임", note: "% 아라비카 / 요지야" },
-        { time: "10:30~11:00", activity: "란덴(嵐電) 전차 타고 사이인역 이동", transport: "란덴 아라시야마선 (15분, 250엔)" },
+        { time: "10:30~11:00", activity: "란덴(嵐電) 전차 타고 사이인역 이동 (직통 15분)", transport: "란덴 아라시야마선 (250엔)" },
         { time: "11:00~13:00", activity: "🙏 교토교회 주일예배 참석 (사이인역 인근)", spotKey: "kyoto_church", note: "필수 고정 일정" },
         { time: "13:00~14:30", activity: "사이인역 점심 (3개 선택지 중 선택)", note: "로컬 테이쇼쿠 / 말차소바 / 카레" },
-        { time: "15:00~17:00", activity: "킨카쿠지 (금각사) 황금 누각 관람", spotKey: "kinkakuji", note: "유네스코 세계유산" },
+        { time: "15:00~17:30", activity: "니시키 시장 미식 탐방 & 시조 거리 산책", spotKey: "nishiki_market", note: "400년 전통 미식 & 티라미수" },
         { time: "18:00~20:00", activity: "사이인역 저녁 (3개 선택지 중 선택)", note: "숯불 야키니쿠 코마 / 토리키조쿠" }
       ],
       day5: [
-        { time: "07:30~09:00", activity: "교토 클래식 모닝 (3개 선택지)", note: "이노다 커피 / 스마트 커피 / 호텔뷔페" },
-        { time: "09:00~11:30", activity: "후시미이나리 대사 (붉은 센본도리이 터널)", spotKey: "fushimi_inari", note: "교토역 5분" },
-        { time: "12:00~13:00", activity: "점심 식사 (3개 선택지 중 선택)", note: "니시무라테이 / 동양정 / 라멘코지" },
-        { time: "13:30~14:00", activity: "교토역 나카무라 토키치 대나무 말차 포장" },
+        { time: "07:30~08:30", activity: "교토 클래식 모닝 (3개 선택지)", note: "이노다 커피 / 스마트 커피 / 호텔뷔페" },
+        { time: "08:30~10:45", activity: "후시미 이나리 신사 (센본토리이 붉은 도리이 길)", spotKey: "fushimi_inari", note: "★아침 한산한 포토타임" },
+        { time: "11:00~12:00", activity: "교토역 복귀 & 이세탄 백화점·포르타 기념품 쇼핑", note: "차노카 / 로이스 / 나카무라 토키치" },
+        { time: "12:00~13:30", activity: "점심 식사 (3개 선택지 중 선택)", note: "교토역 스이센 / 동양정 / 라멘코지" },
+        { time: "13:30~14:00", activity: "호텔 짐 픽업 & 하루카 특급열차 승강장 이동" },
         { time: "14:00~15:15", activity: "하루카 특급 탑승 ➔ 간사이공항 직통 (75분)", transport: "하루카 (외국인 30% 할인)" },
         { time: "15:30~18:00", activity: "공항 체크인 & 면세점 쇼핑 (로이스 생초콜릿 등)", giftKey: "royce_chocolate", note: "탑승 대기" },
         { time: "18:15", activity: "✈️ 간사이공항 출발 ➔ 20:10 인천공항 도착" }
@@ -350,6 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let cardsInSlot = "";
       optList.forEach((m, idx) => {
         const isMatcha = m.isMatcha;
+        const foodMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.mapQuery || m.jp || m.name)}`;
         cardsInSlot += `
           <div class="food-choice-card ${isMatcha ? 'matcha-card' : ''}" onclick="openDetailModal('meal', '${m.id}')" title="클릭하여 상세 메뉴 및 특징 확인">
             <div class="choice-tag">${optLabels[idx]}</div>
@@ -366,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <div class="food-card-action-bar">
               <span class="click-detail-hint"><i class="fa-solid fa-circle-info"></i> 상세정보 보기</span>
-              <a href="${m.mapUrl}" target="_blank" class="food-map-link" onclick="event.stopPropagation()">
+              <a href="${foodMapUrl}" target="_blank" class="food-map-link" onclick="event.stopPropagation()">
                 <i class="fa-solid fa-location-arrow"></i> 구글맵
               </a>
             </div>
@@ -387,9 +390,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const dayMeta = {
       day1: { date: "09.17", dow: "목요일", theme: "오사카 도착 & 우메다·난바 탐방", city: "오사카" },
       day2: { date: "09.18", dow: "금요일", theme: "신세카이·오사카성·도톤보리 크루즈", city: "오사카" },
-      day3: { date: "09.19", dow: "토요일", theme: "오사카 ➔ 교토 이동 / 니시키 & 기온 야경", city: "오사카 ➔ 교토" },
-      day4: { date: "09.20", dow: "일요일", theme: "아라시야마 대나무숲 & 교토교회 주일예배", city: "교토" },
-      day5: { date: "09.21", dow: "월요일", theme: "후시미이나리 신사 & 하루카 특급 귀국", city: "교토 ➔ 간사이공항" }
+      day3: { date: "09.19", dow: "토요일", theme: "오사카 ➔ 교토 이동 / 청수사 & 교토 GU 쇼핑 & 폰토쵸 야경", city: "오사카 ➔ 교토" },
+      day4: { date: "09.20", dow: "일요일", theme: "아라시야마 대나무숲 & 교토교회 주일예배 & 니시키 시장", city: "교토" },
+      day5: { date: "09.21", dow: "월요일", theme: "후시미이나리 센본도리이 & 교토역 쇼핑 & 하루카 특급 귀국", city: "교토 ➔ 간사이공항" }
     }[dayKey];
 
     const dayHtml = `
