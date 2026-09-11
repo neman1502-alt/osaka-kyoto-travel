@@ -322,6 +322,338 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 380, behavior: 'smooth' });
   };
 
+  // ==========================================================
+  // [🗺️ 관광지 & 맛집 연동 정밀 지도 (식당: 검정 / 디저트: 노랑)]
+  // ==========================================================
+  let interactiveMap = null;
+  let mapMarkers = [];
+
+  function renderInteractiveMap(selectedDay = 'all', selectedType = 'all', targetSpotKey = null) {
+    const guideData = TRAVEL_DETAILS.nearbyGuide || {};
+    const spotKeys = Object.keys(guideData);
+
+    // 기본 활성화 스팟 결정
+    let currentSpotKey = targetSpotKey;
+    if (!currentSpotKey || !guideData[currentSpotKey]) {
+      if (selectedDay !== 'all') {
+        currentSpotKey = spotKeys.find(k => guideData[k].day === selectedDay) || spotKeys[0];
+      } else {
+        currentSpotKey = spotKeys[0];
+      }
+    }
+
+    const html = `
+      <div class="map-view-container">
+        <div class="map-header-card">
+          <div class="map-header-top">
+            <div class="map-header-title">
+              <h2><i class="fa-solid fa-map-location-dot"></i> 오사카 & 교토 관광지 & 맛집/디저트 정밀 지도</h2>
+              <p>타베로그 3.5+ 검증 맛집과 인기 디저트 카페, 주요 관광지의 위치와 도보 동선을 한눈에 확인하세요.</p>
+            </div>
+          </div>
+          <div class="map-legend-bar">
+            <span class="legend-title"><i class="fa-solid fa-circle-info"></i> 마커 안내:</span>
+            <span class="legend-item legend-spot"><i class="fa-solid fa-landmark"></i> 🏛️ 관광지 (빨강)</span>
+            <span class="legend-item legend-black"><i class="fa-solid fa-utensils"></i> 🍽️ 타베로그 맛집 (검정)</span>
+            <span class="legend-item legend-yellow"><i class="fa-solid fa-cake-candles"></i> 🍰 디저트/카페 (노랑)</span>
+          </div>
+        </div>
+
+        <div class="map-filter-toolbar">
+          <div class="filter-group-row">
+            <span class="filter-group-label">일정 필터:</span>
+            <button class="map-filter-chip ${selectedDay === 'all' ? 'active' : ''}" data-day="all">전체 일정</button>
+            <button class="map-filter-chip ${selectedDay === 'day1' ? 'active' : ''}" data-day="day1">Day 1 (우메다/난바)</button>
+            <button class="map-filter-chip ${selectedDay === 'day2' ? 'active' : ''}" data-day="day2">Day 2 (신세카이/오사카성)</button>
+            <button class="map-filter-chip ${selectedDay === 'day3' ? 'active' : ''}" data-day="day3">Day 3 (교토 니시키/기온)</button>
+            <button class="map-filter-chip ${selectedDay === 'day4' ? 'active' : ''}" data-day="day4">Day 4 (아라시야마/가와라마치)</button>
+            <button class="map-filter-chip ${selectedDay === 'day5' ? 'active' : ''}" data-day="day5">Day 5 (후시미이나리/교토역)</button>
+          </div>
+          <div class="filter-group-row">
+            <span class="filter-group-label">분류 필터:</span>
+            <button class="map-filter-chip ${selectedType === 'all' ? 'active' : ''}" data-type="all">전체 보기</button>
+            <button class="map-filter-chip chip-black ${selectedType === 'restaurant' ? 'active' : ''}" data-type="restaurant"><i class="fa-solid fa-utensils"></i> 식당만 (검정)</button>
+            <button class="map-filter-chip chip-yellow ${selectedType === 'dessert' ? 'active' : ''}" data-type="dessert"><i class="fa-solid fa-cake-candles"></i> 디저트만 (노랑)</button>
+            <button class="map-filter-chip ${selectedType === 'spot' ? 'active' : ''}" data-type="spot"><i class="fa-solid fa-landmark"></i> 관광지만 (빨강)</button>
+          </div>
+        </div>
+
+        <div class="map-interactive-grid">
+          <div class="map-canvas-card">
+            <div id="interactiveLeafletMap"></div>
+            <div class="map-canvas-footer">
+              <span><i class="fa-solid fa-mouse-pointer"></i> 마커를 클릭하면 상세 정보와 도보 동선 길찾기가 열립니다.</span>
+              <span id="mapMarkerCountText">표시 중: 0개 장소</span>
+            </div>
+          </div>
+          <div class="map-explorer-panel" id="mapExplorerPanel">
+            <!-- 우측 탐색기 패널 -->
+          </div>
+        </div>
+      </div>
+    `;
+
+    contentArea.innerHTML = html;
+
+    // 우측 탐색기 패널 렌더링 함수
+    function renderExplorer(spotKey) {
+      currentSpotKey = spotKey;
+      const spot = guideData[spotKey];
+      if (!spot) return;
+
+      const spotChipsHtml = spotKeys.map(k => {
+        const s = guideData[k];
+        const isActive = k === spotKey;
+        return `<button class="spot-select-chip ${isActive ? 'active' : ''}" data-spot-key="${k}">${s.spotTitle}</button>`;
+      }).join('');
+
+      const restaurants = (spot.restaurants || []).filter(r => r.type === 'restaurant');
+      const desserts = (spot.restaurants || []).filter(r => r.type === 'dessert');
+
+      const renderNearbyCard = (item, isBlack) => `
+        <div class="nearby-card ${isBlack ? 'is-black' : 'is-yellow'}">
+          <div class="nearby-card-head">
+            <span class="nearby-card-title">${item.name}</span>
+            <span class="nearby-walk-pill ${isBlack ? 'walk-black' : 'walk-yellow'}">
+              <i class="fa-solid fa-person-walking"></i> ${item.walkTime || '도보 인근'}
+            </span>
+          </div>
+          <div style="font-size:0.76rem;color:#868e96;margin-bottom:4px;">${item.jp || ''}</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:0.8rem;margin-bottom:6px;">
+            <span style="color:#d63384;font-weight:700;"><i class="fa-solid fa-star"></i> 타베로그 ${item.tabelog || '3.5+'}</span>
+            ${item.budget ? `<span style="color:#6c757d;">• 예산: ${item.budget}</span>` : ''}
+          </div>
+          ${item.walkTip ? `<div class="nearby-walk-tip"><i class="fa-solid fa-compass"></i> <strong>동선 팁:</strong> ${item.walkTip}</div>` : ''}
+          <div class="nearby-menu-line"><i class="fa-solid fa-utensils"></i> <strong>추천 메뉴:</strong> ${item.menu || '-'}</div>
+          <div class="nearby-actions-row">
+            ${item.directionsUrl ? `<a href="${item.directionsUrl}" target="_blank" class="btn-directions"><i class="fa-solid fa-diamond-turn-right"></i> 도보 길찾기</a>` : ''}
+            ${item.googleMapsUrl ? `<a href="${item.googleMapsUrl}" target="_blank" class="btn-spot-link"><i class="fa-solid fa-map-location-dot"></i> 구글 지도</a>` : ''}
+            <button class="btn-spot-link" onclick="window.focusMapMarker('${item.id}')"><i class="fa-solid fa-location-crosshairs"></i> 지도에서 보기</button>
+          </div>
+        </div>
+      `;
+
+      const explorerHtml = `
+        <div class="explorer-header">
+          <h3><i class="fa-solid fa-compass"></i> 관광지 기준 인근 맛집·디저트 탐색기</h3>
+          <p>관광지를 선택하면 도보 1~10분 거리의 검증 맛집(검정)과 디저트(노랑)가 연동됩니다.</p>
+        </div>
+
+        <div class="spot-selector-scroll">
+          ${spotChipsHtml}
+        </div>
+
+        <div class="active-spot-card">
+          <div class="active-spot-top">
+            <div>
+              <div class="active-spot-title">${spot.spotTitle}</div>
+              <div class="active-spot-jp">${spot.spotJp || ''} • <span style="color:#e63946;font-weight:700;">${spot.dayName || ''}</span></div>
+            </div>
+            ${spot.googleMapsUrl ? `<a href="${spot.googleMapsUrl}" target="_blank" class="btn-directions" style="background:#e63946;"><i class="fa-solid fa-map-pin"></i> 구글맵</a>` : ''}
+          </div>
+          <div class="active-spot-desc">${spot.description || ''}</div>
+        </div>
+
+        ${restaurants.length > 0 ? `
+          <div class="nearby-section-group">
+            <div class="nearby-group-title title-black">
+              <span><i class="fa-solid fa-utensils"></i> 타베로그 검증 맛집 (${restaurants.length}곳)</span>
+              <span style="font-size:0.75rem;font-weight:normal;">검정색 핀</span>
+            </div>
+            <div class="nearby-items-stack">
+              ${restaurants.map(r => renderNearbyCard(r, true)).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        ${desserts.length > 0 ? `
+          <div class="nearby-section-group">
+            <div class="nearby-group-title title-yellow">
+              <span><i class="fa-solid fa-cake-candles"></i> 인기 카페 & 디저트 (${desserts.length}곳)</span>
+              <span style="font-size:0.75rem;font-weight:normal;">노란색 핀</span>
+            </div>
+            <div class="nearby-items-stack">
+              ${desserts.map(d => renderNearbyCard(d, false)).join('')}
+            </div>
+          </div>
+        ` : ''}
+      `;
+
+      const explorerPanel = document.getElementById("mapExplorerPanel");
+      if (explorerPanel) {
+        explorerPanel.innerHTML = explorerHtml;
+        explorerPanel.querySelectorAll(".spot-select-chip").forEach(chip => {
+          chip.addEventListener("click", () => {
+            const k = chip.getAttribute("data-spot-key");
+            renderExplorer(k);
+            if (interactiveMap && guideData[k]) {
+              interactiveMap.flyTo([guideData[k].lat, guideData[k].lng], 15, { duration: 0.8 });
+              const markerObj = mapMarkers.find(m => m.id === k);
+              if (markerObj) markerObj.marker.openPopup();
+            }
+          });
+        });
+      }
+    }
+
+    renderExplorer(currentSpotKey);
+
+    // Leaflet 지도 초기화
+    if (interactiveMap) {
+      try { interactiveMap.remove(); } catch(e) {}
+      interactiveMap = null;
+    }
+
+    const mapElement = document.getElementById("interactiveLeafletMap");
+    if (!mapElement || typeof L === "undefined") return;
+
+    interactiveMap = L.map('interactiveLeafletMap', {
+      center: [34.85, 135.6],
+      zoom: 11
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(interactiveMap);
+
+    mapMarkers = [];
+    const bounds = [];
+
+    const createPin = (lat, lng, iconHtml, markerClass, popupHtml, id) => {
+      const icon = L.divIcon({
+        className: `custom-pin-marker ${markerClass}`,
+        html: iconHtml,
+        iconSize: [34, 34],
+        iconAnchor: [17, 34],
+        popupAnchor: [0, -32]
+      });
+      const marker = L.marker([lat, lng], { icon }).addTo(interactiveMap);
+      marker.bindPopup(popupHtml);
+      mapMarkers.push({ id, marker, lat, lng });
+      bounds.push([lat, lng]);
+      return marker;
+    };
+
+    let totalDisplayedCount = 0;
+
+    // 관광지 마커 등록
+    spotKeys.forEach(k => {
+      const s = guideData[k];
+      if (!s || !s.lat || !s.lng) return;
+
+      const matchesDay = (selectedDay === 'all' || s.day === selectedDay);
+      const matchesType = (selectedType === 'all' || selectedType === 'spot');
+
+      if (matchesDay && matchesType) {
+        totalDisplayedCount++;
+        const popupContent = `
+          <div class="map-popup-box">
+            <div class="popup-tag-row">
+              <span class="popup-category-badge badge-spot">🏛️ 관광지</span>
+              <span style="font-size:0.75rem;color:#e63946;font-weight:700;">${s.dayName || ''}</span>
+            </div>
+            <h4 class="popup-title-h4">${s.spotTitle}</h4>
+            <div class="popup-jp-name">${s.spotJp || ''}</div>
+            <div class="popup-menu-desc">${s.description || ''}</div>
+            <div class="popup-btn-stack">
+              ${s.googleMapsUrl ? `<a href="${s.googleMapsUrl}" target="_blank" class="btn btn-primary" style="padding:6px 10px;font-size:0.78rem;"><i class="fa-solid fa-map-location-dot"></i> 구글 지도 열기</a>` : ''}
+              <button class="btn btn-outline" style="padding:6px 10px;font-size:0.78rem;" onclick="window.selectSpotInExplorer('${k}')"><i class="fa-solid fa-compass"></i> 인근 맛집·디저트 보기</button>
+            </div>
+          </div>
+        `;
+        createPin(s.lat, s.lng, '<i class="fa-solid fa-landmark"></i>', 'marker-spot', popupContent, k);
+      }
+
+      // 레스토랑 & 디저트 마커
+      (s.restaurants || []).forEach(r => {
+        if (!r.lat || !r.lng) return;
+        const matchesRDay = (selectedDay === 'all' || s.day === selectedDay);
+        const matchesRType = (selectedType === 'all' || selectedType === r.type);
+
+        if (matchesRDay && matchesRType) {
+          totalDisplayedCount++;
+          const isBlack = (r.type === 'restaurant');
+          const markerClass = isBlack ? 'marker-restaurant' : 'marker-dessert';
+          const iconHtml = isBlack ? '<i class="fa-solid fa-utensils"></i>' : '<i class="fa-solid fa-cake-candles"></i>';
+          const badgeClass = isBlack ? 'badge-black' : 'badge-yellow';
+          const badgeLabel = isBlack ? '🍽️ 타베로그 맛집' : '🍰 디저트/카페';
+
+          const popupContent = `
+            <div class="map-popup-box">
+              <div class="popup-tag-row">
+                <span class="popup-category-badge ${badgeClass}">${badgeLabel}</span>
+                <span style="font-size:0.75rem;color:#d63384;font-weight:700;"><i class="fa-solid fa-star"></i> ${r.tabelog || '3.5+'}</span>
+              </div>
+              <h4 class="popup-title-h4">${r.name}</h4>
+              <div class="popup-jp-name">${r.jp || ''}</div>
+              <div class="popup-menu-desc">
+                <div><strong>🚶 이동:</strong> ${r.walkTime || ''} (${s.spotTitle} 인근)</div>
+                <div><strong>🍴 추천:</strong> ${r.menu || '-'}</div>
+                ${r.budget ? `<div><strong>💰 예산:</strong> ${r.budget}</div>` : ''}
+              </div>
+              <div class="popup-btn-stack">
+                ${r.directionsUrl ? `<a href="${r.directionsUrl}" target="_blank" class="btn btn-primary" style="padding:6px 10px;font-size:0.78rem;"><i class="fa-solid fa-diamond-turn-right"></i> 도보 길찾기</a>` : ''}
+                ${r.googleMapsUrl ? `<a href="${r.googleMapsUrl}" target="_blank" class="btn btn-outline" style="padding:6px 10px;font-size:0.78rem;"><i class="fa-solid fa-map-location-dot"></i> 구글맵</a>` : ''}
+              </div>
+            </div>
+          `;
+          createPin(r.lat, r.lng, iconHtml, markerClass, popupContent, r.id);
+        }
+      });
+    });
+
+    const countText = document.getElementById("mapMarkerCountText");
+    if (countText) countText.textContent = `표시 중: ${totalDisplayedCount}개 장소`;
+
+    // 맵 뷰포트 맞추기
+    if (targetSpotKey && guideData[targetSpotKey]) {
+      const sp = guideData[targetSpotKey];
+      interactiveMap.setView([sp.lat, sp.lng], 15);
+      const m = mapMarkers.find(item => item.id === targetSpotKey);
+      if (m) setTimeout(() => m.marker.openPopup(), 300);
+    } else if (bounds.length > 0) {
+      interactiveMap.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+    }
+
+    setTimeout(() => {
+      if (interactiveMap) interactiveMap.invalidateSize();
+    }, 250);
+
+    // 필터 버튼 이벤트 바인딩
+    document.querySelectorAll(".map-filter-toolbar .map-filter-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        if (chip.hasAttribute("data-day")) {
+          const d = chip.getAttribute("data-day");
+          renderInteractiveMap(d, selectedType, currentSpotKey);
+        } else if (chip.hasAttribute("data-type")) {
+          const t = chip.getAttribute("data-type");
+          renderInteractiveMap(selectedDay, t, currentSpotKey);
+        }
+      });
+    });
+
+    window.selectSpotInExplorer = function(spotKey) {
+      renderExplorer(spotKey);
+      if (interactiveMap && guideData[spotKey]) {
+        interactiveMap.flyTo([guideData[spotKey].lat, guideData[spotKey].lng], 15, { duration: 0.8 });
+        const m = mapMarkers.find(item => item.id === spotKey);
+        if (m) m.marker.openPopup();
+      }
+      const panel = document.getElementById("mapExplorerPanel");
+      if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    window.focusMapMarker = function(id) {
+      const m = mapMarkers.find(item => item.id === id);
+      if (m && interactiveMap) {
+        interactiveMap.flyTo([m.lat, m.lng], 16, { duration: 0.8 });
+        m.marker.openPopup();
+        window.scrollTo({ top: 420, behavior: 'smooth' });
+      }
+    };
+  }
+
   // Day 1 ~ 5 렌더링 (끼니별 3개 선택지 카드 지원)
   function renderDay(dayKey) {
     if (dayKey === "interactive-map") {

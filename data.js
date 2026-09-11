@@ -1674,7 +1674,7 @@ const TRAVEL_DETAILS = {
         ]
       }
     ]
-  }
+  },
 
   // [관광지별 인근 맛집(검정) & 디저트(노랑) 정밀 연동 가이드]
   nearbyGuide: {
