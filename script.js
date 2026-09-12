@@ -703,7 +703,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { time: "17:00~17:35", activity: "🎡 [추천 활동지] 헵파이브(HEP FIVE) 대관람차 탑승", spotKey: "hep_five", note: "★주유패스 무료 (도심 106m 전망)" },
         { time: "17:35~18:15", activity: "숙소 이동 및 체크인 (온야도 노노 난바)", transport: "오사카 메트로 미도스지선", note: "우메다역 ➔ 난바역 직통 9분" },
         { time: "18:15~19:30", activity: "쿠로몬 시장 & 난바 탐방", spotKey: "kuromon_market", note: "해산물 미식 & 활기찬 거리" },
-        { time: "19:30~20:45", activity: "저녁 식사 (3개 선택지 중 선택)", note: "야키니쿠 니쿠하치 / 이치란 / 츠루동탄" },
+        { time: "19:30~20:45", activity: "저녁 식사 (원하는 스타일 택1)", note: "쿠라스시(직통 레일 배달) / 니쿠하치 / 이치란" },
         { time: "20:45~", activity: "호텔 천연 온천 휴식 & 도톤보리 글리코상 야경", spotKey: "dotonbori", note: "야식 요나키소바 무료" }
       ],
       day2: [
@@ -727,7 +727,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { time: "12:30~13:30", activity: "점심: 교토역 맛집 (3개 선택지)", note: "동양정 함박 / 소바도코로 아오이 / 교토 코토코토(두부정식)" },
         { time: "14:00~16:30", activity: "청수사 (기요미즈테라) & 산넨자카·니넨자카 산책", transport: "교토 시버스 206/207번 (230엔)", spotKey: "kiyomizu_dera", note: "★유네스코 세계유산" },
         { time: "16:30~18:30", activity: "교토 GU 쇼핑 탐방 (아반티점 / 카와라마치점)", spotKey: "gu_kyoto", note: "🛍️ 면세 10% 쇼핑" },
-        { time: "18:30~20:00", activity: "저녁: 기온 & 카와라마치 (3개 선택지)", note: "멘야 이노이치 / 사사야 / 이즈모야" },
+        { time: "18:30~20:00", activity: "저녁: 가와라마치 & 기온 (선택)", note: "초지로 스시(직통 배달) / 노카니 / 사사야" },
         { time: "20:00~21:30", activity: "폰토쵸 골목 등롱 야경 산책 & 츠지리 말차", spotKey: "pontocho", note: "감성 야경 & 디저트" }
       ],
       day4: [
@@ -736,9 +736,9 @@ document.addEventListener("DOMContentLoaded", () => {
         { time: "10:00~10:30", activity: "아라시야마 강변 카페 & 말차 타임", note: "% 아라비카 / 요지야" },
         { time: "10:30~11:00", activity: "란덴(嵐電) 전차 타고 사이인역 이동 (직통 15분)", transport: "란덴 노면전차 (직통 15분, 250엔)" },
         { time: "11:00~13:00", activity: "🙏 교토교회 주일예배 참석 (사이인역 인근)", spotKey: "kyoto_church", note: "필수 고정 일정" },
-        { time: "13:00~14:30", activity: "사이인역 점심 (3개 선택지 중 선택)", note: "로컬 테이쇼쿠 / 말차소바 / 카레" },
+        { time: "13:00~14:30", activity: "🍱 사이인역 점심: 야요이켄 (Yayoi Ken) 또는 로컬 정식", note: "야요이켄(밥·국 리필) / 사이인 정식" },
         { time: "15:00~17:30", activity: "니시키 시장 미식 탐방 & 시조 거리 산책", transport: "한큐 전철 또는 교토 시버스", spotKey: "nishiki_market", note: "400년 전통 미식 & 티라미수" },
-        { time: "18:00~20:00", activity: "사이인역 저녁 (3개 선택지 중 선택)", note: "숯불 야키니쿠 코마 / 토리키조쿠" }
+        { time: "18:00~", activity: "🍽️ 18:00 사이인역 저녁 식사 & 하루 마무리", note: "사이인역 집결 / 숯불 야키니쿠 코마 등" }
       ],
       day5: [
         { time: "07:30~08:30", activity: "교토 클래식 모닝 (3개 선택지)", note: "이노다 커피 / 스마트 커피 / 호텔뷔페" },

@@ -545,6 +545,23 @@ const TRAVEL_DETAILS = {
           menu: "명란 크림 우동, 카레 우동, 와규 우동",
           summary: "얼굴보다 큰 대형 그릇에 나오는 쫄깃한 면발과 진한 명란 크림의 환상적 조화. 도톤보리 야경과 이어지는 코스.",
           mapQuery: "つるとんたん 宗右衛門町店"
+        },
+        {
+          id: "kurasushi_dotonbori",
+          name: "쿠라스시 도톤보리 플래그십점 (직통 레일 배달 스시)",
+          jp: "くら寿司 道頓堀店 (グローバル旗艦店)",
+          en: "Kura Sushi Dotonbori Global Flagship",
+          tabelog: 3.25,
+          category: "터치패널 좌석 주문 & 고속 레일 직통 배달 스시",
+          badge: "🍣 자리에서 버튼 터치 ➔ 내 자리 직통 배달!",
+          reservation: "🟢 현장 키오스크 번호표 발권 / EPARK 앱 예약 가능",
+          budget: "1,500 ~ 3,000엔 (접시당 115엔~)",
+          station: "난바역 14번 출구 도보 3분 / 도톤보리 메인 거리",
+          address: "大阪府大阪市中央区道頓堀1-4-22 クロードビル 2F",
+          googleMapsUrl: "https://maps.app.goo.gl/o1kZ456xZ8sF5hKq8",
+          mapQuery: "くら寿司 道頓堀店",
+          menu: "혼마구로 참치 초밥, 연어 뱃살, 단새우, 장어, 와규 스시, 튀김, 라멘 (100여 종)",
+          summary: "자리마다 대형 터치스크린이 완비되어 원하는 초밥을 누르면 내 자리 앞 전용 '특급 스트레이트 레일'로 초밥이 슝 배달되는 신개념 스시 명점! 1접시 115엔부터 저렴하게 원하는 만큼 배터지게 시켜 먹을 수 있으며, 5접시 투입 시 가챠 게임(비쿠라폰)이 진행되어 재미와 가성비를 모두 만족합니다."
         }
       ],
       dessert_matcha: [
@@ -951,6 +968,26 @@ const TRAVEL_DETAILS = {
           menu: "카모가와 모둠 텐푸라 정식, 수제 메밀소바, 장어덮밥",
           summary: "카모가와 강이 내려다보이는 창가 좌석에서 바삭한 튀김과 메밀국수를 즐길 수 있는 70년 전통점.",
           mapQuery: "先斗町 いづもや"
+        },
+        {
+          id: "chojiro_kyoto",
+          name: "초지로 시조키야마치점 (CHOJIRO 四条木屋町店)",
+          jp: "廻転寿司 CHOJIRO 四条木屋町店",
+          en: "CHOJIRO Shijo Kiyamachi",
+          tabelog: 3.51,
+          category: "태블릿 터치 주문 & 좌석 직통 배달 프리미엄 스시",
+          badge: "🍣 타베로그 3.51 / 자리에서 버튼 터치 주문 & 직통 배달",
+          reservation: "🟢 태블릿 한국어 지원 / 현장 대기 또는 온라인 예약",
+          budget: "2,500 ~ 4,500엔 (원하는 만큼 자유 주문)",
+          station: "한큐 교토카와라마치역 1번 출구 도보 1분 / 기온시조역 도보 3분",
+          address: "京都府京都市下京区橋本町103-2 B1F",
+          googleMapsUrl: "https://maps.app.goo.gl/Fk9z8n7V7g3L8yQp9",
+          mapQuery: "廻転寿司 CHOJIRO 四条木屋町店",
+          menu: "혼마구로 참치 삼매경 세트, 특선 생연어, 제철 방어·도미, 장어 한 마리 초밥, 계란찜",
+          summary: "타베로그 3.51점의 검증된 교토 No.1 프리미엄 스시! 각 좌석마다 비치된 멀티 터치패널(한국어 지원)로 원하는 초밥을 누르면 셰프가 즉석에서 쥐어 내 자리 앞 전용 레일로 직통 배송됩니다. 고급 오마카세급 횟감 선도와 가성비를 겸비하여 무한리필 뷔페보다 훨씬 높은 만족도로 원하는 초밥을 마음껏 즐길 수 있는 최고의 명점입니다.",
+          koreanReview: "‘자리에서 태블릿 버튼으로 누르면 바로바로 자리로 배달되어 너무 편함’, ‘타베로그 3.5가 넘는 이유가 있음. 참치와 연어 퀄리티가 회전초밥 수준을 뛰어넘음’.",
+          japaneseReview: "京都の繁華街・木屋町で鮮度抜群の寿司をタッチパネルで手軽に堪能できる名店。落ち着いた店内で直送レーンの出来立て握りを満喫できる。",
+          comparison: "저가형 무한리필의 낮은 퀄리티 대신, '자리에서 버튼으로 누르면 내 자리로 직배달되는 편리함'과 '타베로그 3.51 프리미엄 선도'를 완벽하게 충족하는 교토 최고의 스시 선택지."
         }
       ],
       dessert_matcha: [
@@ -1049,17 +1086,19 @@ const TRAVEL_DETAILS = {
           mapQuery: "西院駅 定食"
         },
         {
-          id: "yasui_matcha_soba",
-          name: "🍵 소바도코로 야스이 (우지 말차소바)",
-          jp: "そば処 安井 (西院)",
-          tabelog: 3.55,
-          isMatcha: true,
-          category: "수제 메밀소바 & 우지 말차소바",
-          budget: "900 ~ 1,500엔",
-          station: "사이인역 도보 4분",
-          menu: "차소바(우지 말차를 반죽한 초록빛 소바), 새우 텐푸라 소바",
-          summary: "교토 우지 말차를 메밀 반죽에 넣어 향긋하고 쫄깃한 냉소바. 예배 후 속 편한 점심으로 최적!",
-          mapQuery: "西院 蕎麦"
+          id: "yayoiken_saiin",
+          name: "야요이켄 사이인점 (Yayoi Ken)",
+          jp: "やよい軒 西院店",
+          en: "Yayoi Ken Saiin",
+          tabelog: 3.28,
+          category: "일본 정통 가정식 백반 (밥·미소시루 리필 무료)",
+          badge: "🍚 밥 무한리필 / 사이인역 도보 1분 갓성비",
+          budget: "750 ~ 1,300엔",
+          station: "한큐 사이인역 서쪽 출구 도보 1분 / 교토교회 도보 3분",
+          address: "京都府京都市右京区西院西三蔵町24-1",
+          menu: "생선구이 정식(고등어/연어), 치킨난반 정식, 된장 돈카츠 나베 정식, 규동",
+          summary: "교토교회 11~13시 주일예배 후 바로 걸어가서 먹기 가장 완벽한 위치! 매장 내 밥솥에서 따끈따끈한 백미 밥과 감칠맛 나는 다시 육수가 무제한 리필되는 일본 대표 정식 체인점.",
+          mapQuery: "やよい軒 西院店 京都"
         },
         {
           id: "kyoto_kitchen_saiin",
@@ -2865,21 +2904,21 @@ const TRAVEL_DETAILS = {
       description: "주일 오전 예배(11:00~13:00) 후 사이인역 주변 로컬 미식 골목",
       restaurants: [
         {
-          id: "yasui_matcha_soba",
-          name: "🍵 소바도코로 야스이 (우지 말차소바)",
-          jp: "そば処 やすい",
+          id: "yayoiken_saiin",
+          name: "야요이켄 사이인점 (Yayoi Ken)",
+          jp: "やよい軒 西院店",
           type: "restaurant",
           color: "black",
           badgeColor: "검정",
-          tabelog: 3.54,
-          walkTime: "도보 3분 (사이인역 골목)",
-          walkTip: "교회 예배 후 사이인역 방면으로 걸어가면 바로 만나는 정통 수제 소바집",
-          menu: "초록빛 우지 말차소바, 텐푸라 메밀국수 세트",
-          budget: "1,000 ~ 1,600엔",
-          lat: 35.0028,
-          lng: 135.7315,
-          googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=%E8%A5%BF%E9%99%A2+%E3%81%9D%E3%81%B0%E5%87%A6+%E3%82%84%E3%81%99%E3%81%84",
-          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=35.0028,135.7317&destination=35.0028,135.7315&travelmode=walking"
+          tabelog: 3.28,
+          walkTime: "도보 3분 (한큐 사이인역 서측)",
+          walkTip: "교토교회 주일예배 후 사이인역 방면 도보 3분! 밥·국 무한리필 일본 가정식 정식",
+          menu: "생선구이 정식, 치킨난반, 돈카츠 나베 정식 (밥 리필 무료)",
+          budget: "750 ~ 1,300엔",
+          lat: 35.0035,
+          lng: 135.7312,
+          googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=%E3%82%84%E3%82%88%E3%81%84%E8%BB%92+%E8%A5%BF%E9%99%A2%E5%BA%97",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=35.0028,135.7317&destination=35.0035,135.7312&travelmode=walking"
         },
         {
           id: "saiin_teishoku",
