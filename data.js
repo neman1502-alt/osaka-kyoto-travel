@@ -864,16 +864,17 @@ const TRAVEL_DETAILS = {
           mapQuery: "京都駅 蕎麦"
         },
         {
-          id: "warajiya_kyoto",
-          name: "니시키 와라자야 (두부 요리)",
-          jp: "錦 わらじや",
-          tabelog: 3.68,
-          category: "교토 전통 유도후(두부) 정식",
-          budget: "1,500 ~ 2,800엔",
-          station: "시조역 / 카와라마치역 도보 4분 (니시키 시장 내)",
-          menu: "유도후(湯豆腐) 정식, 두부 스테이크, 제철 교토 반찬",
-          summary: "교토의 맑은 지하수로 빚은 담백하고 부드러운 수제 두부 밥상.",
-          mapQuery: "錦 わらじや 京都"
+          id: "kotokoto_kyoto_station",
+          name: "교토 코토코토 포르타점 (교토 두부·오반자이)",
+          jp: "京都ことこと ポルタ店",
+          tabelog: 3.52,
+          category: "교토 수제 두부 & 제철 오반자이 나베 정식",
+          badge: "🥢 교토역 지하 직결 / 정갈한 두부 정식",
+          budget: "1,400 ~ 2,200엔",
+          station: "JR 교토역 지하 포르타(Porta) 다이닝존",
+          menu: "수제 두부·쿄유바 정식, 교토 제철 야채 오반자이, 유도후 나베",
+          summary: "교토역 도착 후 숙소(사쿠라 테라스)에 짐을 맡기고 교토역 지하 포르타에서 담백하고 부드러운 수제 두부와 정갈한 교토 전통 가정식(오반자이)을 맛볼 수 있는 최적의 웰빙 런치.",
+          mapQuery: "京都ことこと ポルタ店"
         }
       ],
       dinner: [
@@ -2929,21 +2930,21 @@ const TRAVEL_DETAILS = {
       description: "400년 역사의 '교토의 부엌'! 유도후(두부 요리), 미슐랭 라멘 및 80년 전통 이노다 커피",
       restaurants: [
         {
-          id: "warajiya_kyoto",
-          name: "니시키 와라자야 (두부 요리)",
-          jp: "錦市場 湯豆腐",
+          id: "konnamonja_nishiki",
+          name: "콘나몬쟈 (こんなもんじゃ / 후지노 두부)",
+          jp: "こんなもんじゃ (京都とうふ藤野)",
           type: "restaurant",
           color: "black",
           badgeColor: "검정",
-          tabelog: 3.55,
+          tabelog: 3.56,
           walkTime: "도보 1분 (니시키 시장 아케이드 내부)",
-          walkTip: "니시키 시장 아케이드 중앙. 정갈한 교토 전통 유도후(두부) 요리",
-          menu: "교토 전통 유도후(두부) 정식, 두부 부침, 절임 반찬",
-          budget: "1,500 ~ 2,500엔",
-          lat: 35.0050,
-          lng: 135.7650,
-          googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=%E9%8C%A6%E5%B8%82%E5%A0%B4+%E6%B9%AF%E8%B1%86%E8%85%90",
-          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=35.0050,135.7650&destination=35.0050,135.7650&travelmode=walking"
+          walkTip: "니시키 시장 내 60년 전통 두부 명가 '교토 도후 후지노' 직영점! 폭신한 수제 두유 도넛과 진한 두부 명소",
+          menu: "갓 튀긴 수제 두유 도넛(10개 350엔), 진한 두유 소프트, 교토 수제 두부",
+          budget: "350 ~ 1,000엔",
+          lat: 35.0051,
+          lng: 135.7645,
+          googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=%E3%81%93%E3%82%93%E3%81%AA%E3%82%82%E3%82%93%E3%81%98%E3%82%83+%E9%8C%A6%E5%B8%82%E5%A0%B4",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=35.0050,135.7650&destination=35.0051,135.7645&travelmode=walking"
         },
         {
           id: "menya_inoichi",

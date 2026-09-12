@@ -724,7 +724,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { time: "08:30~10:00", activity: "아침 기상 & 조식 후 체크아웃 준비" },
         { time: "10:30~11:00", activity: "오사카 ➔ 교토 이동 (JR 신쾌속 직통 28분)", transport: "JR 신쾌속 (28분 직통, 560엔)" },
         { time: "11:30~12:15", activity: "교토 숙소 체크인 및 짐 보관 (사쿠라 테라스 더 갤러리)", note: "교토역 도보 2분" },
-        { time: "12:30~13:30", activity: "점심: 교토역 맛집 (3개 선택지)", note: "동양정 함박 / 소바도코로 아오이 / 와라자야" },
+        { time: "12:30~13:30", activity: "점심: 교토역 맛집 (3개 선택지)", note: "동양정 함박 / 소바도코로 아오이 / 교토 코토코토(두부정식)" },
         { time: "14:00~16:30", activity: "청수사 (기요미즈테라) & 산넨자카·니넨자카 산책", transport: "교토 시버스 206/207번 (230엔)", spotKey: "kiyomizu_dera", note: "★유네스코 세계유산" },
         { time: "16:30~18:30", activity: "교토 GU 쇼핑 탐방 (아반티점 / 카와라마치점)", spotKey: "gu_kyoto", note: "🛍️ 면세 10% 쇼핑" },
         { time: "18:30~20:00", activity: "저녁: 기온 & 카와라마치 (3개 선택지)", note: "멘야 이노이치 / 사사야 / 이즈모야" },
