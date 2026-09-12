@@ -1826,6 +1826,12 @@ body {
   border: 1px solid #e63946;
 }
 
+.legend-item.legend-church {
+  background: rgba(139, 92, 246, 0.25);
+  color: #eedeff;
+  border: 1px solid #8b5cf6;
+}
+
 .legend-item.legend-black {
   background: #111111;
   color: #ffffff;
@@ -2006,6 +2012,14 @@ body {
   box-shadow: 0 4px 12px rgba(230, 57, 70, 0.6) !important;
 }
 
+/* ⛪ 교토교회 마커 (보라색) */
+.marker-church {
+  background: #8b5cf6 !important;
+  border: 2px solid #ffffff !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.75) !important;
+}
+
 /* Leaflet 팝업 스타일 */
 .leaflet-popup-content-wrapper {
   border-radius: 12px;
@@ -2048,6 +2062,11 @@ body {
 
 .popup-category-badge.badge-spot {
   background: #e63946;
+  color: #ffffff;
+}
+
+.popup-category-badge.badge-church {
+  background: #8b5cf6;
   color: #ffffff;
 }
 

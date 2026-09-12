@@ -2289,6 +2289,57 @@ const TRAVEL_DETAILS = {
           lng: 135.5018,
           googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=%E3%81%9F%E3%81%93%E5%AE%B6%E9%81%93%E9%A0%93%E5%A0%80%E3%81%8F%E3%81%8F%E3%82%8B+%E6%9C%AC%E5%BA%97",
           directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=34.6687,135.5014&destination=34.6687,135.5018&travelmode=walking"
+        },
+        {
+          id: "rikusui_dotonbori",
+          name: "Rikusui 도톤보리·신사이바시점",
+          jp: "海鮮居酒屋 Rikusui (リクスイ)",
+          type: "restaurant",
+          color: "black",
+          badgeColor: "검정",
+          tabelog: 3.42,
+          walkTime: "도보 3분 (에비스바시 북측 5층)",
+          walkTip: "에비스바시 북측 빌딩 5층. 생산자 직영 참치·사시미·스시·튀김 100종 무한리필 뷔페",
+          menu: "혼마구로 참치·연어 초밥 무제한, 모둠 사시미, 즉석 바삭 튀김 뷔페",
+          budget: "4,500 ~ 6,500엔",
+          lat: 34.6705,
+          lng: 135.5012,
+          googleMapsUrl: "https://maps.app.goo.gl/uX3QxP6qC5eA9vLk8",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=34.6687,135.5014&destination=34.6705,135.5012&travelmode=walking"
+        },
+        {
+          id: "kurasushi_dotonbori",
+          name: "쿠라스시 도톤보리 플래그십점",
+          jp: "くら寿司 道頓堀店",
+          type: "restaurant",
+          color: "black",
+          badgeColor: "검정",
+          tabelog: 3.25,
+          walkTime: "도보 2분 (도톤보리 중앙)",
+          walkTip: "도톤보리 메인 거리 2층. 터치패널 주문 시 전용 고속 직통 레일로 배달 & 5접시 가챠 게임",
+          menu: "숙성 참치, 생연어 뱃살, 장어 스시, 비쿠라폰 가챠",
+          budget: "1,500 ~ 3,000엔",
+          lat: 34.6689,
+          lng: 135.5032,
+          googleMapsUrl: "https://maps.app.goo.gl/o1kZ456xZ8sF5hKq8",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=34.6687,135.5014&destination=34.6689,135.5032&travelmode=walking"
+        },
+        {
+          id: "sushiro_dotonbori",
+          name: "스시로 도톤보리점",
+          jp: "スシロー 道頓堀店",
+          type: "restaurant",
+          color: "black",
+          badgeColor: "검정",
+          tabelog: 3.26,
+          walkTime: "도보 3분 (도톤보리 동측 B1)",
+          walkTip: "도톤보리 강변 인근 지하 1층. 일본 매출 1위 가성비 스시 & 두툼한 네타",
+          menu: "천연 참치, 구운 연어, 가리비, 간장 새우",
+          budget: "1,500 ~ 3,200엔",
+          lat: 34.6688,
+          lng: 135.5042,
+          googleMapsUrl: "https://maps.app.goo.gl/bVzJ2R3oQ7vT5mXk7",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=34.6687,135.5014&destination=34.6688,135.5042&travelmode=walking"
         }
       ],
       desserts: [
@@ -2491,6 +2542,23 @@ const TRAVEL_DETAILS = {
           lng: 135.5028,
           googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=%E5%B1%B1%E6%9C%AC%E7%8F%88%E7%90%B2+%E9%9B%A3%E6%B3%A2",
           directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=34.6525,135.5063&destination=34.6645,135.5028&travelmode=walking"
+        },
+        {
+          id: "tsutenkaku_doremi",
+          name: "킷사 드레미 (喫茶ドレ미)",
+          jp: "喫茶ドレミ (新世界)",
+          type: "dessert",
+          color: "yellow",
+          badgeColor: "노랑",
+          tabelog: 3.61,
+          walkTime: "도보 30초 (츠텐카쿠 타워 바로 앞)",
+          walkTip: "츠텐카쿠 타워 정문 바로 맞은편 80년 전통 레트로 킷사텐",
+          menu: "수제 커스터드 푸딩, 두툼한 핫케이크, 사이폰 커피",
+          budget: "600 ~ 1,100엔",
+          lat: 34.6526,
+          lng: 135.5065,
+          googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=%E5%96%AB%E8%8C%B6%E3%83%89%E3%83%AC%E3%83%9F+%E6%96%B0%E4%B8%96%E7%95%8C",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=34.6525,135.5063&destination=34.6526,135.5065&travelmode=walking"
         }
       ]
     },
@@ -2821,6 +2889,40 @@ const TRAVEL_DETAILS = {
           lng: 135.7648,
           googleMapsUrl: "https://maps.app.goo.gl/t1ezB4y2zQ7a3JtP9",
           directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=35.0036,135.7785&destination=35.0049,135.7648&travelmode=walking"
+        },
+        {
+          id: "chojiro_kyoto",
+          name: "초지로 시조키야마치점",
+          jp: "廻転寿司 CHOJIRO 四条木屋町店",
+          type: "restaurant",
+          color: "black",
+          badgeColor: "검정",
+          tabelog: 3.51,
+          walkTime: "도보 5분 (기온시조 다리 건너편)",
+          walkTip: "카와라마치역 1번 출구 지하 1층. 자리에서 태블릿 터치 주문 시 전용 레일로 직통 배송되는 프리미엄 스시",
+          menu: "혼마구로 참치 삼매경, 특선 생연어, 제철 방어, 활어 스시",
+          budget: "2,500 ~ 4,500엔",
+          lat: 35.0036,
+          lng: 135.7702,
+          googleMapsUrl: "https://maps.app.goo.gl/Fk9z8n7V7g3L8yQp9",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=35.0036,135.7785&destination=35.0036,135.7702&travelmode=walking"
+        },
+        {
+          id: "kanigin_kawaramachi",
+          name: "교토 카니긴 가와라마치점",
+          jp: "京都 かに銀 河原町店",
+          type: "restaurant",
+          color: "black",
+          badgeColor: "검정",
+          tabelog: 3.25,
+          walkTime: "도보 7분 (카와라마치DECK 5F)",
+          walkTip: "가와라마치 메인 거리 COAST 빌딩 5층. 특대 본 즈와이가니(대게) 찜 & 스시 & 샤브샤브 호화 무제한 뷔페",
+          menu: "본 즈와이가니(대게) 찜 무제한, 스시 무제한, 게 샤브샤브, 게딱지 내장 구이",
+          budget: "6,000 ~ 9,000엔",
+          lat: 35.0055,
+          lng: 135.7688,
+          googleMapsUrl: "https://maps.app.goo.gl/yM5b8qF6jZ2L7P4u8",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=35.0036,135.7785&destination=35.0055,135.7688&travelmode=walking"
         }
       ],
       desserts: [

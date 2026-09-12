@@ -368,6 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="map-legend-bar">
             <span class="legend-title"><i class="fa-solid fa-circle-info"></i> 마커 안내:</span>
             <span class="legend-item legend-spot"><i class="fa-solid fa-landmark"></i> 🏛️ 관광지 (빨강)</span>
+            <span class="legend-item legend-church"><i class="fa-solid fa-church"></i> ⛪ 교토교회 (보라)</span>
             <span class="legend-item legend-black"><i class="fa-solid fa-utensils"></i> 🍽️ 타베로그 맛집 (검정)</span>
             <span class="legend-item legend-yellow"><i class="fa-solid fa-cake-candles"></i> 🍰 디저트/카페 (노랑)</span>
           </div>
@@ -562,11 +563,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (matchesDay && matchesType) {
         totalDisplayedCount++;
+        const isChurch = (k === 'kyoto_church');
+        const badgeClass = isChurch ? 'badge-church' : 'badge-spot';
+        const badgeLabel = isChurch ? '⛪ 교토교회' : '🏛️ 관광지';
+        const badgeColor = isChurch ? '#8b5cf6' : '#e63946';
+        const markerClass = isChurch ? 'marker-church' : 'marker-spot';
+        const iconHtml = isChurch ? '<i class="fa-solid fa-church"></i>' : '<i class="fa-solid fa-landmark"></i>';
+
         const popupContent = `
           <div class="map-popup-box">
             <div class="popup-tag-row">
-              <span class="popup-category-badge badge-spot">🏛️ 관광지</span>
-              <span style="font-size:0.75rem;color:#e63946;font-weight:700;">${s.dayName || ''}</span>
+              <span class="popup-category-badge ${badgeClass}">${badgeLabel}</span>
+              <span style="font-size:0.75rem;color:${badgeColor};font-weight:700;">${s.dayName || ''}</span>
             </div>
             <h4 class="popup-title-h4">${s.spotTitle}</h4>
             <div class="popup-jp-name">${s.spotJp || ''}</div>
@@ -577,7 +585,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
         `;
-        createPin(s.lat, s.lng, '<i class="fa-solid fa-landmark"></i>', 'marker-spot', popupContent, k);
+        createPin(s.lat, s.lng, iconHtml, markerClass, popupContent, k);
       }
 
       // 레스토랑 & 디저트 마커
