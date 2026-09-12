@@ -715,7 +715,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { time: "13:30~14:00", activity: "오사카성 이동", transport: "지하철 나가호리츠루미료쿠치선", note: "모리노미야역 직통" },
         { time: "14:00~16:30", activity: "🏯 오사카성 천수각 관람 & 고자부네 놀잇배 / 조-테라스", spotKey: "osaka_castle", note: "★천수각 & 금빛 배 주유패스 무료" },
         { time: "16:30~17:15", activity: "도톤보리 복귀", transport: "오사카 메트로 주오선 + 미도스지선", note: "난바역 복귀" },
-        { time: "17:30~19:15", activity: "🍽️ 도톤보리 저녁 식사 (3개 선택지 중 선택)", note: "야키니쿠 니쿠하치 [예약 필수/권장] / 철판 미츠키" },
+        { time: "17:30~19:15", activity: "🍽️ 도톤보리 저녁 식사 (스시 3종 비교 또는 와규)", note: "Rikusui(뷔페) / 쿠라스시 / 스시로 / 니쿠하치" },
         { time: "19:30~19:50", activity: "🚤 돈보리 리버 크루즈 탑승 (★화려한 네온사인 최고 야경 골든타임!)", spotKey: "dotonbori_cruise", note: "글리코상 앞 360도 야경 유람" },
         { time: "20:00~21:30", activity: "🛒 도톤보리 밤 쇼핑 (돈키호테 & 24시 대형 LIFE 마트 난바점)", spotKey: "life_namba", giftKey: "shoshugen_poopourri", note: "면세 10%+5% & 로컬 장보기" },
         { time: "21:30~", activity: "호텔 복귀 & 천연 온천 힐링 (무료 요나키소바 라멘 야식)", spotKey: "dotonbori", note: "온천 휴식" }
@@ -727,7 +727,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { time: "12:30~13:30", activity: "점심: 교토역 맛집 (3개 선택지)", note: "동양정 함박 / 소바도코로 아오이 / 교토 코토코토(두부정식)" },
         { time: "14:00~16:30", activity: "청수사 (기요미즈테라) & 산넨자카·니넨자카 산책", transport: "교토 시버스 206/207번 (230엔)", spotKey: "kiyomizu_dera", note: "★유네스코 세계유산" },
         { time: "16:30~18:30", activity: "교토 GU 쇼핑 탐방 (아반티점 / 카와라마치점)", spotKey: "gu_kyoto", note: "🛍️ 면세 10% 쇼핑" },
-        { time: "18:30~20:00", activity: "저녁: 가와라마치 & 기온 (선택)", note: "초지로 스시(직통 배달) / 노카니 / 사사야" },
+        { time: "18:30~20:00", activity: "저녁: 가와라마치 & 기온 미식 탐방", note: "카니긴(대게·스시 뷔페) / 초지로 스시 / 사사야" },
         { time: "20:00~21:30", activity: "폰토쵸 골목 등롱 야경 산책 & 츠지리 말차", spotKey: "pontocho", note: "감성 야경 & 디저트" }
       ],
       day4: [
