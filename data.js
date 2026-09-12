@@ -1621,6 +1621,19 @@ const TRAVEL_DETAILS = {
   // [한국 출발 전 필수 사전 구매 체크리스트 (실제 운영 사이트 직통 링크)]
   prepurchase: [
     {
+      title: "간사이공항 리무진 버스 승차권 (공항 ➔ 우메다 직통)",
+      desc: "1인 1,800엔. 클룩 예약 시 바우처 QR이 발송되며 예약일로부터 1년간 유효(날짜·시간 선택 불필요). 공항 1층 5번 기둥 근처 매표소 '버스 안내소'에서 QR 제시 시 실물 티켓으로 교환(여러 명이어도 1장 발권).",
+      officialUrl: "https://www.kate.co.jp/kr/",
+      klookUrl: "https://www.klook.com/ko/activity/852-airport-bus-transfers-osaka/",
+      timing: "출발 3~14일 전 온라인 예매 권장"
+    },
+    {
+      title: "ICOCA 교통카드 (간사이공항 JR 매표소 현장구매 권장)",
+      desc: "현금 2,000엔(충전 1,500엔 + 보증금 500엔). 국내 인터넷 사이트는 품절이 잦아 공항 2층 JR 매표소 현장구매 추천. 버스는 하차 시 태그, 지하철은 승/하차 모두 태그. 보증금은 반환 시 환불.",
+      officialUrl: "https://www.westjr.co.jp/global/kr/ticket/icoca-haruka/",
+      timing: "간사이공항 2층 JR 매표소 현장 구입 (현금 필수)"
+    },
+    {
       title: "하루카 특급 할인 티켓 (교토 ➔ 간사이공항)",
       desc: "정가 3,640엔 ➔ 외국인 30% 할인으로 약 2,550엔에 구매 가능. 귀국일 75분 만에 공항 직통 연결!",
       officialUrl: "https://www.westjr.co.jp/global/kr/ticket/pass/one_way/haruka/",
@@ -1820,14 +1833,16 @@ const TRAVEL_DETAILS = {
         symbol: "🟢 LIMOUSINE",
         icon: "fa-bus",
         section: "[1일차] 간사이공항 1·2터미널 ➔ 오사카 메트로 우메다역 (신한큐호텔 앞 직통 50~60분)",
-        fare: "성인 1,800엔 (승차권 발권기 또는 교통카드 ICOCA 태그 가능)",
-        type: "공항 직통 고속 리무진 버스 (전 좌석 완비, 캐리어 하부 수납)",
+        fare: "성인 1인 1,800엔 (클룩 사전 예매 QR 바우처 교환 또는 현장 자동발권기/ICOCA 태그)",
+        type: "공항 직통 고속 리무진 버스 (전 좌석 완비, 대형 캐리어 하부 수납)",
         features: [
+          "클룩(Klook) 사전 예매 가능: 예약 시 바우처 QR코드가 발송되며, 예약일로부터 1년간 유효한 오픈 티켓이므로 별도 이용 일자나 시간대를 지정할 필요 없이 자유롭게 탑승 가능",
+          "바우처 실물 교환: 간사이공항 1터미널 1층 입국장 밖 '5번 기둥' 근처 매표소 '버스 안내소(Bus Information / Ticket Office)'에서 QR코드 제시 후 실물 승차권 교환 (여러 명이 예약해도 예약 건당 1장의 통합 티켓으로 발권)",
           "무거운 대형 캐리어를 기사님이 직접 버스 하부 트렁크에 실어주고 수하물 번호표를 전달해 주어 무거운 짐을 들고 기차 계단을 오르내릴 필요 없이 최고로 편안한 이동",
           "간사이공항 1터미널 1층 국제선 입국장 밖 '5번 승강장'에서 오사카역·우메다행 버스가 15~20분 간격으로 수시 출발",
           "오사카 메트로(지하철) 우메다역 바로 옆 신한큐호텔 정류장에 직통 하차하여 지하철역 코인라커 및 이동 동선 최적"
         ],
-        beginnerTip: "★ 탑승 꿀팁: 입국장 1층 밖으로 나오면 바로 앞에 '5번 승강장'과 자동발권기가 있습니다. 발권기에서 '오사카역 앞(신한큐호텔/우메다)' 티켓을 뽑거나 탑승 시 기사님 안내에 따라 탑승합니다. 짐표(수하물 교환권)를 잘 보관했다가 우메다역 하차 시 기사님께 보여주시면 캐리어를 바로 꺼내줍니다!"
+        beginnerTip: "★ 바우처 교환 & 탑승 꿀팁: 입국장 1층 밖으로 나오시면 5번 기둥 근처 매표소인 '버스 안내소'가 있습니다. 클룩 모바일 바우처 QR을 보여주시면 실물 승차권(여러 명이어도 1장)으로 즉시 교환해 줍니다. 5번 승강장에서 짐을 맡길 때 받는 수하물 교환권을 잘 보관했다가 우메다역(신한큐호텔 앞) 하차 시 기사님께 보여주시면 캐리어를 바로 꺼내줍니다!"
       },
       {
         id: "haruka",
@@ -2508,7 +2523,25 @@ const TRAVEL_DETAILS = {
           directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=34.6873,135.5262&destination=34.6812,135.5340&travelmode=walking"
         }
       ],
-      desserts: []
+      desserts: [
+        {
+          id: "osaka_castle_miraiza",
+          name: "오사카성 미라이자 & 조테라스 말차 디저트 카페",
+          jp: "MIRAIZA OSAKA-JO / JO-TERRACE OSAKA",
+          type: "dessert",
+          color: "yellow",
+          badgeColor: "노랑",
+          tabelog: 3.52,
+          walkTime: "도보 1분 (천수각 바로 앞)",
+          walkTip: "천수각 바로 앞 복합문화공간 미라이자 1층 및 오사카조코엔역 앞 조테라스 카페존",
+          menu: "진한 우지 말차 소프트아이스크림, 말차 파르페, 팬케이크",
+          budget: "600 ~ 1,200엔",
+          lat: 34.6865,
+          lng: 135.5265,
+          googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=MIRAIZA+OSAKA-JO",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=34.6873,135.5262&destination=34.6865,135.5265&travelmode=walking"
+        }
+      ]
     },
 
     kiyomizu_dera: {
@@ -3007,7 +3040,25 @@ const TRAVEL_DETAILS = {
           directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=35.0028,135.7317&destination=35.0025,135.7330&travelmode=walking"
         }
       ],
-      desserts: []
+      desserts: [
+        {
+          id: "saiin_cafe_bakery",
+          name: "사이인 브랑제리 & 커피 (Boulangerie)",
+          jp: "ブーランジェリー 西院",
+          type: "dessert",
+          color: "yellow",
+          badgeColor: "노랑",
+          tabelog: 3.51,
+          walkTime: "도보 2분 (사이인역 사거리)",
+          walkTip: "교토교회 및 사이인역 인근 로컬 수제 베이커리 & 핸드드립 커피",
+          menu: "갓 구운 크루아상, 앙버터, 교토 말차 라떼",
+          budget: "400 ~ 900엔",
+          lat: 35.0031,
+          lng: 135.7315,
+          googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=%E8%A5%BF%E9%99%A2+%E3%82%AB%E3%83%95%E3%82%A7",
+          directionsUrl: "https://www.google.com/maps/dir/?api=1&origin=35.0028,135.7317&destination=35.0031,135.7315&travelmode=walking"
+        }
+      ]
     },
 
     nishiki_market: {

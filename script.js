@@ -421,8 +421,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return `<button class="spot-select-chip ${isActive ? 'active' : ''}" data-spot-key="${k}">${s.spotTitle}</button>`;
       }).join('');
 
-      const restaurants = (spot.restaurants || []).filter(r => r.type === 'restaurant');
-      const desserts = (spot.restaurants || []).filter(r => r.type === 'dessert');
+      const allItems = [...(spot.restaurants || []), ...(spot.desserts || [])];
+      const restaurants = allItems.filter(r => r.type === 'restaurant');
+      const desserts = allItems.filter(r => r.type === 'dessert');
 
       const renderNearbyCard = (item, isBlack) => `
         <div class="nearby-card ${isBlack ? 'is-black' : 'is-yellow'}">
@@ -580,7 +581,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // 레스토랑 & 디저트 마커
-      (s.restaurants || []).forEach(r => {
+      const allSpotItems = [...(s.restaurants || []), ...(s.desserts || [])];
+      allSpotItems.forEach(r => {
         if (!r.lat || !r.lng) return;
         const matchesRDay = (selectedDay === 'all' || s.day === selectedDay);
         const matchesRType = (selectedType === 'all' || selectedType === r.type);
@@ -1212,13 +1214,45 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
 
-        <!-- 4. ICOCA 교통카드 이용 가이드 -->
-        <div class="golden-rules-section" style="border-left: 5px solid #20c997;">
-          <div class="section-title"><i class="fa-solid fa-credit-card" style="color:#20c997;"></i> 교통카드(ICOCA) 발권 및 충전 꿀팁</div>
-          <div style="font-size:0.88rem;color:#495057;line-height:1.7;">
-            <p><strong>🔹 발권 방법:</strong> 간사이공항 2층 JR 개찰구 옆 파란색/초록색 자동발권기에서 한국어 선택 후 [ICOCA 구입] 터치 (보증금 500엔 + 충전금 1,500엔 = 2,000엔 현금 투입).</p>
-            <p><strong>🔹 충전 방법:</strong> 여행 중 잔액이 부족해지면 지하철/JR 역의 모든 교통카드 충전기(精算機 / Fare Adjustment)에서 1,000엔 단위로 현금 충전 가능합니다.</p>
-            <p><strong>🔹 아이폰 유저 꿀팁:</strong> 애플월렛에서 '파스모(PASMO)' 또는 '스이카(Suica)'를 마스터/현대카드로 즉시 발급받으면 간사이공항에서 실물 카드 살 필요 없이 스마트폰 태그만으로 전철·버스를 바로 타실 수 있습니다!</p>
+        <!-- 4. ICOCA 교통카드 완전정복 가이드 (구매·환불·태그방법·코스별 최적 충전금액) -->
+        <div class="golden-rules-section" style="border-left: 5px solid #20c997; background: #f8fafc; border-radius: 12px; padding: 20px; margin-top: 25px;">
+          <div class="section-title" style="font-size:1.15rem; color:#0f5132; margin-bottom:12px;">
+            <i class="fa-solid fa-credit-card" style="color:#20c997;"></i> 교통카드(ICOCA 카드) 완전정복 가이드 & 코스 최적 충전액 추천
+          </div>
+          <div style="font-size:0.9rem; color:#334155; line-height:1.75;">
+            <div style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px; margin-bottom:12px;">
+              <strong style="color:#0d6efd;"><i class="fa-solid fa-cart-shopping"></i> (1) 구매 방법 (현장구매 vs 국내 사전구매 비교)</strong><br>
+              • <strong>현장구매 (적극 권장):</strong> 간사이공항 2층 JR 매표소(Ticket Office) 또는 JR 자동발권기에서 즉시 구매 가능합니다.<br>
+              • <strong>국내 사전구매:</strong> 현재 클룩 등 주요 국내 인터넷 예매 사이트에서 실물 카드 재고 품절(Sold Out)이 잦으므로 <strong>공항 현장구매가 훨씬 빠르고 편리</strong>합니다.
+            </div>
+
+            <div style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px; margin-bottom:12px;">
+              <strong style="color:#198754;"><i class="fa-solid fa-coins"></i> (2) 현장구매 상세 조건 & 보증금 환불</strong><br>
+              • <strong>결제 수단:</strong> <strong>현금(엔화)만 가능</strong> (신용카드 불가하므로 1인당 최소 2,000엔 현금 준비 필수)<br>
+              • <strong>기본 구입비:</strong> 기본 <strong>2,000엔</strong> (실제 사용 가능 잔액 <strong>1,500엔</strong> + 카드 보증금 <strong>500엔</strong>)<br>
+              • <strong>보증금 500엔 환불:</strong> 여행 마지막 날 간사이공항 JR 매표소에 카드를 반환하면 <strong>보증금 500엔을 전액 현금으로 환불</strong>받으실 수 있습니다. (※ 팁: 카드 잔액을 편의점 등에서 0엔으로 다 쓰고 반환하면 수수료 없이 500엔을 고스란히 돌려받습니다!)
+            </div>
+
+            <div style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px; margin-bottom:12px;">
+              <strong style="color:#fd7e14;"><i class="fa-solid fa-mobile-screen-button"></i> (3) 대중교통 승하차 태그(Tag) 방법</strong><br>
+              • <strong>시내버스 (교토 버스 등):</strong> <strong>'하차할 때'</strong> 운전석 옆 요금 단말기에 카드 1회 터치 (탈 때는 뒤편 문으로 그냥 탑승)<br>
+              • <strong>지하철 & JR 전철:</strong> 한국 지하철과 동일하게 <strong>'승차할 때'와 '하차할 때' 모두</strong> 개찰구 IC 터치패드에 태그
+            </div>
+
+            <div style="background:#e8f5e9; border:1.5px solid #a3cfbb; border-radius:8px; padding:15px 18px;">
+              <strong style="color:#0f5132; font-size:0.95rem;"><i class="fa-solid fa-calculator"></i> (4) 우리 여행 코스 기준: 얼마 충전하는 게 최적화일까? (맞춤 추천)</strong><br>
+              <div style="margin-top:6px; font-size:0.86rem; color:#212529;">
+                우리 4박 5일 일정 중 1~2일차는 '오사카 주유패스'로 지하철이 전액 무료이므로, <strong>3~5일차 비패스 구간</strong>만 ICOCA 카드를 사용하게 됩니다:<br>
+                • <strong>3일차 (오사카 ➔ 교토):</strong> JR 신쾌속 열차 (오사카역 ➔ 교토역, <strong>560엔</strong>) + 교토 시버스 이동 (<strong>230엔</strong>) = <strong>790엔</strong><br>
+                • <strong>4일차 (아라시야마 & 시내):</strong> 란덴 노면전차 (<strong>250엔</strong>) + 한큐선/시버스 (<strong>230엔</strong>) = <strong>480엔</strong><br>
+                • <strong>5일차 (후시미이나리 왕복):</strong> JR 나라선 (교토역 ↔ 이나리역 왕복 150엔 × 2 = <strong>300엔</strong>)<br>
+                👉 <strong>순수 교통비 합계: 정확히 1,570엔!</strong><br>
+                <div style="margin-top:8px; padding:10px 12px; background:#fff; border-radius:6px; border-left:4px solid #198754; font-weight:600; color:#0f5132;">
+                  💡 <strong>에이전트 최종 최적화 추천:</strong><br>
+                  최초 구매 시 충전된 <strong>1,500엔</strong>으로 이미 전체 교통비의 96%가 충당됩니다! 따라서 <strong>초기 2,000엔으로 구매 후, 4일차나 5일차에 1,000엔만 딱 1회 추가 충전(총 2,500엔 잔액 운용)</strong>하시면 잔액 부족 걱정 없이 목마를 때 자동판매기 음료(130~160엔)나 편의점 간식까지 100% 깔끔하게 소진하고 공항에서 보증금 500엔을 환불받으실 수 있습니다.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
