@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 구글맵 루트 URL 매핑 (정밀 좌표)
   const MAP_ROUTES = {
-    day1: "https://www.google.com/maps/dir/34.4347,135.244/34.7056,135.4905/34.6683,135.5005/34.6667,135.5057/34.6687,135.5014",
+    day1: "https://www.google.com/maps/dir/34.4347,135.244/34.7032,135.4980/34.7056,135.4905/34.7042,135.4878/34.7040,135.4965/34.7037,135.5003/34.6683,135.5005/34.6667,135.5057/34.6687,135.5014",
     day2: "https://www.google.com/maps/dir/34.6523,135.5063/34.6522,135.5060/34.6888,135.5248/34.6873,135.5262/34.6687,135.5014",
     day3: "https://www.google.com/maps/dir/34.9818,135.7592/34.9949,135.7850/35.0068,135.7686/35.0036,135.7785/35.0063,135.7709",
     day4: "https://www.google.com/maps/dir/35.0167,135.6717/35.0042,135.7317/35.0049,135.7648/34.9818,135.7592",
@@ -89,6 +89,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (type === "spot") {
       data = TRAVEL_DETAILS.spots[key];
+      if (!data) {
+        for (const day in TRAVEL_DETAILS.mealsByDay) {
+          for (const slot in TRAVEL_DETAILS.mealsByDay[day]) {
+            const found = TRAVEL_DETAILS.mealsByDay[day][slot].find(m => m.id === key);
+            if (found) { data = found; type = "meal"; break; }
+          }
+          if (data) break;
+        }
+      }
     } else if (type === "meal") {
       // mealsByDay에서 검색
       for (const day in TRAVEL_DETAILS.mealsByDay) {
@@ -291,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (t.includes("신쾌속")) {
       cls += " transit-rapid";
       icon = '<i class="fa-solid fa-bolt-lightning"></i>';
-    } else if (t.includes("버스") || t.includes("205") || t.includes("206") || t.includes("207")) {
+    } else if (t.includes("버스") || t.includes("리무진") || t.includes("205") || t.includes("206") || t.includes("207")) {
       cls += " transit-bus";
       icon = '<i class="fa-solid fa-bus"></i>';
     } else if (t.includes("란덴")) {
@@ -679,15 +688,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const scheduleData = {
       day1: [
-        { time: "11:00", activity: "간사이공항 도착 및 입국 심사", transport: "ICOCA 발권", note: "교통카드 발급" },
-        { time: "12:00", activity: "체크아웃 완료 / 편의점 간식 구매", note: "로손/패밀리마트" },
-        { time: "12:00~13:00", activity: "우메다 이동 (하루카 특급 45분)", transport: "JR 하루카 특급", note: "외국인 30% 할인" },
-        { time: "13:00~13:30", activity: "우메다역 코인라커 짐 보관", note: "JR 오사카역 B1" },
-        { time: "13:30~15:30", activity: "우메다 스카이빌딩 공중정원 전망대", spotKey: "umeda_sky", note: "★주유패스 무료(16시전)" },
-        { time: "15:30~16:30", activity: "숙소 이동 및 체크인 (온야도 노노 난바)", transport: "오사카 메트로 미도스지선", note: "천연 온천 호텔" },
-        { time: "16:30~18:00", activity: "쿠로몬 시장 & 난바 탐방", spotKey: "kuromon_market", note: "해산물 미식" },
-        { time: "18:00~19:30", activity: "저녁 식사 (3개 선택지 중 선택)", note: "이치란 / 야마쇼 / 츠루동탄" },
-        { time: "19:30~", activity: "호텔 천연 온천 휴식 & 도톤보리 야경", spotKey: "dotonbori", note: "힐링 타임" }
+        { time: "11:00", activity: "간사이공항 도착 및 입국 심사 (수속 & 세관)", transport: "ICOCA 발권 / 리무진 티켓", note: "1층 5번 승강장" },
+        { time: "12:00~13:00", activity: "우메다 이동 (공항 리무진 버스 직통, 오사카 메트로 우메다역 방면)", transport: "공항 리무진 버스 (직통 55분)", note: "신한큐호텔·우메다역 정류소" },
+        { time: "13:00~13:20", activity: "코인라커 짐 보관 (오사카 메트로 우메다역)", note: "지하철 개찰구/지하도 라커" },
+        { time: "13:20~14:00", activity: "🐙 간식: 하나다코 (파 산더미 네기마요 타코야키 원조)", spotKey: "hanadako_umeda", note: "신우메다 식도원 1F (도보 2분)" },
+        { time: "14:00~15:20", activity: "우메다 스카이빌딩 공중정원 전망대 & 타키미코지", spotKey: "umeda_sky", note: "★주유패스 무료(16시전)" },
+        { time: "15:20~16:00", activity: "🛒 [추천 로컬마트] 라이프(LIFE) 마트 오오요도나카점", spotKey: "life_supermarket", note: "스카이빌딩 도보 3분 / 2층 대형마트" },
+        { time: "16:10~17:00", activity: "🏢 [추천 쇼핑·100엔샵] 요도바시 카메라 & LINKS 5F 다이소", spotKey: "yodobashi_umeda", note: "메트로 직결 / 100엔샵(하쿠엔샵)" },
+        { time: "17:00~17:35", activity: "🎡 [추천 활동지] 헵파이브(HEP FIVE) 대관람차 탑승", spotKey: "hep_five", note: "★주유패스 무료 (도심 106m 전망)" },
+        { time: "17:35~18:15", activity: "숙소 이동 및 체크인 (온야도 노노 난바)", transport: "오사카 메트로 미도스지선", note: "우메다역 ➔ 난바역 직통 9분" },
+        { time: "18:15~19:30", activity: "쿠로몬 시장 & 난바 탐방", spotKey: "kuromon_market", note: "해산물 미식 & 활기찬 거리" },
+        { time: "19:30~20:45", activity: "저녁 식사 (3개 선택지 중 선택)", note: "야키니쿠 니쿠하치 / 이치란 / 츠루동탄" },
+        { time: "20:45~", activity: "호텔 천연 온천 휴식 & 도톤보리 글리코상 야경", spotKey: "dotonbori", note: "야식 요나키소바 무료" }
       ],
       day2: [
         { time: "08:30~11:30", activity: "츠텐카쿠 타워 & 신세카이 레트로 골목", transport: "미도스지선 (도부츠엔마에행)", spotKey: "tsutenkaku", note: "★주유패스 무료" },
