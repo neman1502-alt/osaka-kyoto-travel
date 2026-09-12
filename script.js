@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 구글맵 루트 URL 매핑 (정밀 좌표)
   const MAP_ROUTES = {
     day1: "https://www.google.com/maps/dir/34.4347,135.244/34.7032,135.4980/34.7056,135.4905/34.7042,135.4878/34.7040,135.4965/34.7037,135.5003/34.6683,135.5005/34.6667,135.5057/34.6687,135.5014",
-    day2: "https://www.google.com/maps/dir/34.6523,135.5063/34.6522,135.5060/34.6888,135.5248/34.6873,135.5262/34.6687,135.5014",
+    day2: "https://www.google.com/maps/dir/34.6683,135.5005/34.6523,135.5063/34.6687,135.5014/34.6873,135.5262/34.6687,135.5014/34.6655,135.4950/34.6683,135.5005",
     day3: "https://www.google.com/maps/dir/34.9818,135.7592/34.9949,135.7850/35.0068,135.7686/35.0036,135.7785/35.0063,135.7709",
     day4: "https://www.google.com/maps/dir/35.0167,135.6717/35.0042,135.7317/35.0049,135.7648/34.9818,135.7592",
     day5: "https://www.google.com/maps/dir/34.9818,135.7592/34.9671,135.7727/34.9858,135.7588/34.4347,135.2440"
@@ -193,6 +193,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="spec-label">위치 및 역</div>
             <div class="spec-value">${data.station || '역 인근'}</div>
           </div>
+          ${data.reservation ? `
+          <div class="spec-item" style="grid-column: span 2; background: #fff8f8; border: 1px solid #ffd6d6;">
+            <div class="spec-label" style="color: #c9184a;"><i class="fa-solid fa-calendar-check"></i> 예약 가이드</div>
+            <div class="spec-value" style="font-size: 0.95rem; font-weight: 700; color: #c9184a;">${data.reservation}</div>
+          </div>` : ''}
         </div>
         <div class="modal-section-title"><i class="fa-solid fa-utensils"></i> 대표 시그니처 메뉴</div>
         <div class="modal-desc-box" style="font-weight:700;color:#1d3557;">${data.menu}</div>
@@ -702,13 +707,18 @@ document.addEventListener("DOMContentLoaded", () => {
         { time: "20:45~", activity: "호텔 천연 온천 휴식 & 도톤보리 글리코상 야경", spotKey: "dotonbori", note: "야식 요나키소바 무료" }
       ],
       day2: [
-        { time: "08:30~11:30", activity: "츠텐카쿠 타워 & 신세카이 레트로 골목", transport: "미도스지선 (도부츠엔마에행)", spotKey: "tsutenkaku", note: "★주유패스 무료" },
-        { time: "11:30~12:30", activity: "점심: 신세카이 맛집 (3개 선택지)", note: "원조 다루마 / 야에카츠 / 도쿠마사" },
-        { time: "12:30~13:30", activity: "오사카 수상 크루즈 아쿠아라이너 탑승", spotKey: "osaka_cruise", note: "★주유패스 무료" },
-        { time: "13:30~16:00", activity: "오사카성 천수각 & 성곽공원 관람", transport: "오사카 지하철 주오선", spotKey: "osaka_castle", note: "★주유패스 무료" },
-        { time: "16:00~18:00", activity: "도톤보리 거리 구경 & 에비스바시 글리코상", spotKey: "dotonbori", note: "기념 촬영" },
-        { time: "18:00~19:30", activity: "저녁 식사 (3개 선택지 중 선택)", note: "킨류 라멘 / 아지노야 / 쿠쿠루" },
-        { time: "19:30~21:30", activity: "돈키호테 도톤보리점 쇼핑 (푸푸리 득템!)", giftKey: "shoshugen_poopourri", note: "면세 10% + 5% 쿠폰" }
+        { time: "07:00~08:00", activity: "아침 기상 & 호텔 온천욕 및 외출 준비", note: "온야도 노노 힐링 모닝" },
+        { time: "08:30~10:30", activity: "🗼 츠텐카쿠 타워 & 신세카이 레트로 거리", transport: "오사카 메트로 미도스지선 (도부츠엔마에행)", spotKey: "tsutenkaku", note: "★주유패스 무료" },
+        { time: "10:30~11:30", activity: "🍢 [이른 점심] 신세카이 원조 쿠시카츠 식사", note: "야에카츠(10:30 오픈) / 다루마 [현장 대기]" },
+        { time: "11:45~12:15", activity: "🎟️ 도톤보리 이동 ➔ '돈보리 리버 크루즈' 19:30 야경 티켓팅", transport: "미도스지선 (난바역 복귀)", spotKey: "dotonbori_cruise", note: "★주유패스 무료 (돈키호테 앞 매표소)" },
+        { time: "12:15~13:30", activity: "🍱 도톤보리 2차 점심 또는 명품 디저트", note: "아지노야 오코노미야키 / 리쿠로 치즈케이크" },
+        { time: "13:30~14:00", activity: "오사카성 이동", transport: "지하철 나가호리츠루미료쿠치선", note: "모리노미야역 직통" },
+        { time: "14:00~16:30", activity: "🏯 오사카성 천수각 관람 & 고자부네 놀잇배 / 조-테라스", spotKey: "osaka_castle", note: "★천수각 & 금빛 배 주유패스 무료" },
+        { time: "16:30~17:15", activity: "도톤보리 복귀", transport: "오사카 메트로 주오선 + 미도스지선", note: "난바역 복귀" },
+        { time: "17:30~19:15", activity: "🍽️ 도톤보리 저녁 식사 (3개 선택지 중 선택)", note: "야키니쿠 니쿠하치 [예약 필수/권장] / 철판 미츠키" },
+        { time: "19:30~19:50", activity: "🚤 돈보리 리버 크루즈 탑승 (★화려한 네온사인 최고 야경 골든타임!)", spotKey: "dotonbori_cruise", note: "글리코상 앞 360도 야경 유람" },
+        { time: "20:00~21:30", activity: "🛒 도톤보리 밤 쇼핑 (돈키호테 & 24시 대형 LIFE 마트 난바점)", spotKey: "life_namba", giftKey: "shoshugen_poopourri", note: "면세 10%+5% & 로컬 장보기" },
+        { time: "21:30~", activity: "호텔 복귀 & 천연 온천 힐링 (무료 요나키소바 라멘 야식)", spotKey: "dotonbori", note: "온천 휴식" }
       ],
       day3: [
         { time: "08:30~10:00", activity: "아침 기상 & 조식 후 체크아웃 준비" },
@@ -810,6 +820,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="food-details">
               <div><strong>메뉴:</strong> ${m.menu}</div>
               <div><strong>예산:</strong> ${m.budget} | <strong>위치:</strong> ${m.station}</div>
+              ${m.reservation ? `<div style="margin-top:5px;font-size:0.78rem;font-weight:700;color:${m.reservation.includes('🔴') ? '#c9184a' : (m.reservation.includes('🟠') ? '#d97706' : '#2d6a4f')};background:${m.reservation.includes('🔴') ? '#ffe5ec' : (m.reservation.includes('🟠') ? '#fef3c7' : '#e8f5e9')};padding:3px 8px;border-radius:6px;display:inline-block;"><i class="fa-solid fa-calendar-check"></i> ${m.reservation}</div>` : ''}
             </div>
             <div class="food-card-action-bar">
               <span class="click-detail-hint"><i class="fa-solid fa-circle-info"></i> 상세정보 보기</span>
